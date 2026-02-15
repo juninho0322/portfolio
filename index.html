@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Luis | Portfolio</title>
+  </head>
+
+  <body>
+    <body>
+      <header class="site-header">
+        <nav class="nav" aria-label="Primary">
+          <a class="logo" href="/">Luis4L</a>
+
+          <ul class="nav__list">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main id="main">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="container">
+            <p class="hero__tag">Front-End Developer • CS Student</p>
+            <h1 id="hero-title">I build clean, responsive web experiences.</h1>
+            <p class="hero__subtitle">
+              React, JavaScript, and modern UI — projects, GitHub, and CV in one
+              place.
+            </p>
+
+            <div class="hero__actions">
+              <a class="btn" href="#projects">View projects</a>
+              <a class="btn btn--ghost" href="#contact">Contact me</a>
+            </div>
+          </div>
+          <div class="container">
+            <div class="code-window">
+              <div class="code-window__header">
+                <div class="traffic-lights">
+                  <span class="light red"></span>
+                  <span class="light yellow"></span>
+                  <span class="light green"></span>
+                </div>
+
+                <div class="file-name">
+                  <span class="file-dot"></span>
+                  Portfolio.js
+                </div>
+              </div>
+              <div class="code-content">
+                <div class="code-line">
+                  <span class="line-number">01</span>
+                  <span><span class="keyword">const</span> developer = {</span>
+                </div>
+
+                <div class="code-line">
+                  <span class="line-number">02</span>
+                  <span> name: <span class="string">'Luis Carlos'</span>,</span>
+                </div>
+
+                <div class="code-line">
+                  <span class="line-number">03</span>
+                  <span>
+                    focus: <span class="string">'Frontend & AI'</span>,</span
+                  >
+                </div>
+
+                <div class="code-line">
+                  <span class="line-number">04</span>
+                  <span>
+                    skills: [<span class="string">'React'</span>,
+                    <span class="string">'GSAP'</span>,
+                    <span class="string">'AI'</span>],</span
+                  >
+                </div>
+
+                <div class="code-line">
+                  <span class="line-number">05</span>
+                  <span> passionate: <span class="boolean">true</span>,</span>
+                </div>
+
+                <div class="code-line">
+                  <span class="line-number">06</span>
+                  <span>
+                    motto:
+                    <span class="string"
+                      >"Let's crack on with this!"</span
+                    ></span
+                  >
+                </div>
+
+                <div class="code-line">
+                  <span class="line-number">07</span>
+                  <span>};</span>
+                </div>
+
+                <div class="code-line">
+                  <span class="line-number">08</span>
+                  <span
+                    ><span class="variable">developer</span>.<span
+                      class="function"
+                      >showcase</span
+                    >();</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="about" aria-labelledby="about-title">
+          <div class="container">
+            <h2 id="about-title">About</h2>
+            <p>
+              Short intro about you, your transition, what you’re focused on.
+            </p>
+          </div>
+        </section>
+
+        <section id="projects" aria-labelledby="projects-title">
+          <div class="container">
+            <h2 id="projects-title">Projects</h2>
+
+            <div class="grid">
+              <article class="project-card">
+                <h3>Little Lemon</h3>
+                <p>React app with menus, cart, booking, responsive UI.</p>
+                <ul class="tags">
+                  <li>React</li>
+                  <li>JS</li>
+                  <li>Styled Components</li>
+                </ul>
+                <div class="project-links">
+                  <a href="#" target="_blank" rel="noreferrer">Live</a>
+                  <a href="#" target="_blank" rel="noreferrer">GitHub</a>
+                </div>
+              </article>
+
+              <!-- More project cards -->
+            </div>
+          </div>
+        </section>
+
+        <section id="skills" aria-labelledby="skills-title">
+          <div class="container">
+            <h2 id="skills-title">Skills</h2>
+
+            <ul class="skills">
+              <li>HTML (semantic)</li>
+              <li>CSS / Tailwind</li>
+              <li>JavaScript</li>
+              <li>React</li>
+              <li>Git / GitHub</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="contact" aria-labelledby="contact-title">
+          <div class="container">
+            <h2 id="contact-title">Contact</h2>
+
+            <form class="contact-form">
+              <label>
+                Name
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+
+              <label>
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  autocomplete="email"
+                  required
+                />
+              </label>
+
+              <label>
+                Message
+                <textarea name="message" rows="5" required></textarea>
+              </label>
+
+              <button type="submit">Send</button>
+            </form>
+
+            <p class="contact-links">
+              <a href="#" target="_blank" rel="noreferrer">LinkedIn</a> •
+              <a href="#" target="_blank" rel="noreferrer">GitHub</a> •
+              <a href="#">Download CV</a>
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <small>© <span id="year"></span> Luis4L. All rights reserved.</small>
+      </footer>
+
+      <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+      </script>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+    <script src="script.js"></script>
+    
+  </body>
+</html>

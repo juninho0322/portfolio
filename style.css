@@ -1,0 +1,391 @@
+/* =========================
+   VARIABLES
+========================= */
+
+:root {
+  --color-bg-primary: #0f0f17;
+  --color-bg-secondary: #161622;
+
+  --color-primary: #8b5cf6;
+  --color-primary-dark: #7c3aed;
+  --color-primary-light: #a78bfa;
+
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+
+  --color-border: #1f1f2e;
+
+  --color-glow: rgba(139, 92, 246, 0.3);
+
+
+}
+
+/* =========================
+   RESET
+========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container {
+  width: min(1100px, 90%);
+  margin: 0 auto;
+  padding: 5rem;
+}
+
+/* =========================
+   HEADER / NAV
+========================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  background: rgba(15, 15, 23, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+}
+
+.nav__list {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav__list a {
+  color: var(--color-text-secondary);
+  transition: 0.3s ease;
+}
+
+.nav__list a:hover {
+  color: var(--color-primary);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  background:
+    radial-gradient(circle at 20% 30%, var(--color-glow), transparent 40%),
+    var(--color-bg-primary);
+}
+
+.hero__tag {
+  color: var(--color-primary-light);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+}
+
+.hero__subtitle {
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+/* =========================
+   MAC CODE WINDOW (your HTML)
+========================= */
+
+.code-window {
+  width: min(900px, 100%);
+  margin: 2.5rem auto 0;
+  border-radius: 18px;
+  overflow: hidden;
+
+  background: rgba(15, 15, 23, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.code-window__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0.9rem 1.1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Traffic lights */
+.traffic-lights {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* macOS colours */
+.light.red {
+  background: #ff5f57;
+}
+.light.yellow {
+  background: #ffbd2e;
+}
+.light.green {
+  background: #28c840;
+}
+
+/* File name (right side) */
+.file-name {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.2px;
+}
+
+.file-dot {
+  width: 8px;
+  height: 8px;
+  background: #ff5f57;
+  border-radius: 50%;
+  opacity: 0.9;
+}
+
+/* VSCode Style Code Layout */
+
+.code-content {
+  padding: 2rem;
+  font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: 1rem;
+  line-height: 1.8;
+  background: #0d0d0d;
+}
+
+.code-line {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.line-number {
+  width: 2.5rem;
+  text-align: right;
+  color: #6b7280;
+  user-select: none;
+}
+
+/* VS Code Dark Theme Colours */
+
+.keyword {
+  color: #ff7b72; /* red/pink */
+}
+
+.string {
+  color: #a5d6ff; /* light blue */
+}
+
+.boolean {
+  color: #ff7b72;
+}
+
+.variable {
+  color: #f1f5f9;
+}
+
+.function {
+  color: #d2a8ff; /* purple */
+}
+
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+  padding: 0.8rem 1.5rem;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 6px;
+  font-weight: 500;
+  display: inline-block;
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-3px);
+}
+
+.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn--ghost:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section {
+  border-bottom: 1px solid var(--color-border);
+}
+
+section h2 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* =========================
+   PROJECTS
+========================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--color-bg-secondary);
+  padding: 2rem;
+  border-radius: 12px;
+  transition: 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px var(--color-glow);
+}
+
+.project-card h3 {
+  margin-bottom: 1rem;
+  color: var(--color-primary-light);
+}
+
+.project-card p {
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* Tags */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tags li {
+  background: rgba(139, 92, 246, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-form {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 500px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.8rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-text-primary);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.site-footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--color-text-secondary);
+}
