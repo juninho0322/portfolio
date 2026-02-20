@@ -64,8 +64,17 @@ img {
 .container {
   width: min(1100px, 90%);
   margin: 0 auto;
-  padding: 5rem;
+  padding: 2rem;
 }
+  /* stack on small screens */
+@media (max-width: 900px) {
+  .container {
+    text-align: center;
+    
+  }
+
+}
+
 
 /* =========================
    HEADER / NAV
@@ -118,15 +127,25 @@ img {
 ========================= */
 
 .hero {
-  min-height: 90vh;
-  display: flex;
+  display: grid;
+  gap: 1rem;
   align-items: center;
-  text-align: center;
-  position: relative;
-  background:
-    radial-gradient(circle at 20% 30%, var(--color-glow), transparent 40%),
-    var(--color-bg-primary);
+  min-height: 90vh;
+  /* desktop: 2 columns */
+  grid-template-columns: 1fr 1fr;
 }
+
+/* stack on small screens */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 0;
+    
+  }
+  
+}
+
+
 
 .hero__tag {
   color: var(--color-primary-light);
@@ -221,7 +240,7 @@ img {
 /* VSCode Style Code Layout */
 
 .code-content {
-  padding: 2rem;
+  padding: 1rem;
   font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
   font-size: 1rem;
   line-height: 1.8;
