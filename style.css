@@ -70,11 +70,11 @@ img {
 @media (max-width: 950px) {
   .container-mobile {
     text-align: center;
-    padding: 2rem;
-
+    padding: 0;
   }
-
-
+  .container-mobile:first-child{
+    padding-top: 2rem;
+  }
 }
 
 
@@ -102,6 +102,7 @@ img {
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 5%;
+  height: 10vh;
 }
 
 .logo {
@@ -353,6 +354,7 @@ font-size: clamp(1rem, 1.5vw, 2rem);
 
 section {
   border-bottom: 1px solid var(--color-border);
+  scroll-margin-top: 90px; /* navbar height */
 }
 
 section h2 {
