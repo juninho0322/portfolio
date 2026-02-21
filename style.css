@@ -133,6 +133,10 @@ img {
   min-height: 90vh;
   /* desktop: 2 columns */
   grid-template-columns: 1fr 1fr;
+  background:
+    radial-gradient(circle at 20% 30%, var(--color-glow), transparent 40%),
+    var(--color-bg-primary);
+
 }
 
 /* stack on small screens */
@@ -163,6 +167,8 @@ img {
   max-width: 600px;
   margin: 0 auto 2rem;
 }
+
+
 
 /* =========================
    MAC CODE WINDOW (your HTML)
@@ -245,16 +251,17 @@ img {
   font-size: 1rem;
   line-height: 1.8;
   background: #0d0d0d;
+  
 }
 
 .code-line {
   display: flex;
-  gap: 1.5rem;
+
 }
 
 .line-number {
   width: 2.5rem;
-  text-align: right;
+  text-align: left;
   color: #6b7280;
   user-select: none;
 }
@@ -295,6 +302,7 @@ img {
   font-weight: 500;
   display: inline-block;
   transition: 0.3s ease;
+  margin: 1rem;
 }
 
 .btn:hover {
