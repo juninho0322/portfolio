@@ -77,6 +77,9 @@ img {
   }
 }
 
+.skills{
+  height: 500px;
+}
 
 /* =========================
    HEADER / NAV
@@ -131,12 +134,20 @@ img {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -4px;
+  bottom: -10px;
   width: 0%;
   height: 2px;
   background: var(--color-primary);
   box-shadow: 0 0 8px var(--color-text-primary);
   transition: width 0.5s ease;
+}
+
+.nav__list a.active {
+  color: var(--color-primary);
+}
+
+.nav__list a.active::after {
+  width: 100%;
 }
 
 /* =========================
