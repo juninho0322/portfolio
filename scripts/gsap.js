@@ -22,3 +22,24 @@ if (!card) {
     ry(0);
   });
 }
+
+
+
+function animateSection(section) {
+  if (!section.classList.contains("animated")) {
+    section.classList.add("animated");
+
+    gsap.to(section, {
+      opacity: 1,
+      y: 0,
+      duration: 0.9,
+      ease: "power3.out"
+    });
+  }
+}
+gsap.to(section, {
+  opacity: 1,
+  y: 0,
+  duration: 1,
+  ease: "power4.out"
+});

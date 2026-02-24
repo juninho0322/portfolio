@@ -27,7 +27,11 @@ const sectionObserver = new IntersectionObserver(
       .filter((e) => e.isIntersecting)
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-    if (visible) setActive(visible.target.id);
+    if (visible) {
+  setActive(visible.target.id);
+
+  animateSection(visible.target); // 👈 this calls the function from gsap.js
+}
   },
   { threshold: 0.5 }
 );

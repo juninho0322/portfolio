@@ -117,16 +117,49 @@
           </div>
         </section>
 
-        <section id="about" aria-labelledby="about-title">
-          <div class="container">
-            <h2 id="about-title">About</h2>
-            <p>
-              Hi, I’m Luis — passionate about logic, coding, and building things on the screen.
-              After years of self-study and dedicated mentorship hours, I’m now pursuing a Computer Science degree in the UK while continuing to refine my technical foundation independently.
-              I’m currently learning TypeScript for my next project and continuously expanding my understanding of modern front-end development.
-              I focus on solving problems through logic and structured thinking, building clean, scalable modern applications with clarity and intention.
-            </p>
-          </div>
+        <section id="about" class="about reveal" aria-labelledby="about-title">
+          <div class="container container-mobile">
+            <!-- LEFT SIDE -->
+              <header class="about__header">
+                <h2 id="about-title">About</h2>
+              </header>
+              <article class="about__panel about__panel--main" aria-label="About story">
+                <div class="about__content">
+                  <p class="about__intro">
+                    Hi, I’m <span class="about__name">Luis</span> — passionate about logic, coding, and building things on the screen.
+                  </p>
+
+                  <p>
+                    After years of self-study and dedicated mentorship hours, I’m now pursuing a Computer Science degree in the UK
+                    while continuing to refine my technical foundation independently.
+                  </p>
+
+                  <p>
+                    I’m currently learning <span class="about__accent">TypeScript</span> for my next project and continuously expanding my understanding
+                    of modern front-end development.
+                  </p>
+
+                  <p class="about__signature">
+                    Currently seeking a Junior Front-End Developer or Apprenticeship opportunity.
+                  </p>
+                </div>
+              </article>
+            </div>
+
+            
+            <div class="container container-mobile">
+              <aside class="about__panel about__panel--mini" aria-label="Key highlights">
+                <div class="about__content">
+                  <ul class="about__highlights">
+                    <li><strong>Focus:</strong> React, UI engineering, component design</li>
+                    <li><strong>Learning:</strong> TypeScript & scalable architecture</li>
+                    <li><strong>Strength:</strong> logic-driven problem solving</li>
+                    <li><strong>Goal:</strong> production-ready apps with clarity</li>
+                  </ul>
+                </div>
+              </aside>
+            </div>
+          
         </section>
 
         <section id="projects" aria-labelledby="projects-title">
@@ -214,8 +247,9 @@
     
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-    <script src="./scripts/script.js"></script>
     <script src="./scripts/gsap.js"></script>
+    <script src="./scripts/script.js"></script>
+    
     
   </body>
 </html>
