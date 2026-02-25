@@ -78,12 +78,13 @@ img {
   }
 }
 
-.border-image{
-      border-image: linear-gradient(
+.border-image {
+  border-bottom: 1px solid transparent; /* creates the border to paint */
+  border-image: linear-gradient(
     to right,
     transparent 0%,
     rgba(139, 92, 246, 0.15) 25%,
-    rgba(139, 92, 246, 0.5) 50%,   /* strongest in middle */
+    rgba(139, 92, 246, 0.5) 50%,
     rgba(139, 92, 246, 0.15) 75%,
     transparent 100%
   ) 1;
@@ -130,6 +131,8 @@ img {
   gap: 2rem;
 }
 
+
+
 .nav__list a {
   position: relative;
   color: var(--color-text-secondary);
@@ -137,29 +140,38 @@ img {
 }
 
 
-.nav__list a:hover::after {
-  width: 100%;
-}
-
 .nav__list a::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: -10px;
-  width: 0%;
+  width: 100%;
   height: 2px;
-  background: var(--color-primary);
-  box-shadow: 0 0 8px var(--color-text-primary);
-  transition: width 0.5s ease;
+
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(139, 92, 246, 0.25),
+    rgba(139, 92, 246, 0.7),
+    rgba(139, 92, 246, 0.25),
+    transparent
+  );
+
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+
+/* hover */
+.nav__list a:hover::after,
+.nav__list a.active::after {
+  transform: scaleX(1);
 }
 
 .nav__list a.active {
   color: var(--color-primary);
 }
 
-.nav__list a.active::after {
-  width: 100%;
-}
 
 /* =========================
    HERO
@@ -486,7 +498,7 @@ img {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: grid;
+  
   
 }
 
@@ -580,16 +592,7 @@ img {
 
 section {
   scroll-margin-top: 90px;
-  border-bottom: 1px solid transparent;
 
-  border-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(139, 92, 246, 0.15) 25%,
-    rgba(139, 92, 246, 0.5) 50%,   /* strongest in middle */
-    rgba(139, 92, 246, 0.15) 75%,
-    transparent 100%
-  ) 1;
 }
 
 .reveal{
