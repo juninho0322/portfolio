@@ -78,8 +78,8 @@ img {
   }
 }
 
-.border-image {
-  border-bottom: 1px solid transparent; /* creates the border to paint */
+.border-gradient {
+  border: 1px solid transparent; /* create border box */
   border-image: linear-gradient(
     to right,
     transparent 0%,
@@ -88,6 +88,14 @@ img {
     rgba(139, 92, 246, 0.15) 75%,
     transparent 100%
   ) 1;
+}
+
+.border-top {
+  border-width: 1px 0 0 0;
+}
+
+.border-bottom {
+  border-width: 0 0 1px 0;
 }
 
 .skills{
@@ -471,7 +479,6 @@ img {
 .about__signature {
   margin-top: 1.2rem;
   padding-top: 1.1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
   font-style: italic;
   color: var(--color-primary-light) !important;
   opacity: 0.95;
