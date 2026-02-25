@@ -115,7 +115,7 @@ img {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
 }
 
