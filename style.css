@@ -662,24 +662,22 @@ section h2 {
   border-radius: 18px;
   overflow: hidden;
 
-  /* depth + structure */
+  /* keep border as-is */
   border: 1px solid rgba(255, 255, 255, 0.07);
-  background:
-    /* top purple glow */
-    radial-gradient(circle at 2% 2%, rgba(139, 92, 246, 0.35), transparent 10%),
-    /* subtle corner glow */
-    radial-gradient(circle at 100% 3%, rgba(139, 92, 246, 0.18), transparent 50%),
-    /* base gradient */
-    linear-gradient(160deg, rgba(22, 22, 34, 0.98), rgba(15, 15, 23, 0.98));
 
-  /* premium depth */
+  /* REMOVE the top glow radials, keep only the base */
+  background: linear-gradient(
+    160deg,
+    rgba(22, 22, 34, 0.98),
+    rgba(15, 15, 23, 0.98)
+  );
+
   box-shadow:
     0 12px 28px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
-
 /* subtle "glass edge" highlight */
 .project-card::before {
   content: "";
@@ -687,10 +685,8 @@ section h2 {
   inset: 0;
   pointer-events: none;
 
-  /* top highlight line + soft vignette */
-  background:
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.08), transparent 22%),
-    radial-gradient(circle at 50% 110%, rgba(0, 0, 0, 0.45), transparent 55%);
+  /* remove the grey top shine */
+  
   opacity: 0.7;
 }
 
@@ -750,7 +746,7 @@ section h2 {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent 60%, rgba(15, 15, 23, 0.85) 100%);
+  
 }
 
 .project-thumb img {
@@ -1235,10 +1231,6 @@ section h2 {
   position: absolute;
   inset: 0;
   pointer-events: none;
-
-  background:
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.08), transparent 22%),
-    radial-gradient(circle at 50% 110%, rgba(0, 0, 0, 0.45), transparent 55%);
   opacity: 0.7;
 }
 
