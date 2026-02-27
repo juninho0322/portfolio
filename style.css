@@ -962,6 +962,246 @@ section h2 {
 .project-modal__list {
   color: var(--color-text-secondary);
 }
+
+
+/* =========================
+   SKILLS + EDUCATION (2 COL) — PROJECT CARD STYLE + SAME HEIGHT
+========================= */
+
+.skills-edu__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  /* this is the key for equal height columns */
+  align-items: stretch;
+}
+
+/* Make both panels fill the grid row height */
+.skills-edu__grid > .panel {
+  height: 100%;
+}
+
+/* PANEL = same “premium card” style as .project-card */
+.panel {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background:
+    radial-gradient(circle at 30% 0%, rgba(139, 92, 246, 0.35), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(139, 92, 246, 0.18), transparent 40%),
+    linear-gradient(160deg, rgba(22, 22, 34, 0.98), rgba(15, 15, 23, 0.98));
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+  /* makes content layout predictable and helps equal-height look */
+  display: flex;
+  flex-direction: column;
+}
+
+/* same subtle highlight layer as project cards */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08), transparent 22%),
+    radial-gradient(circle at 50% 110%, rgba(0, 0, 0, 0.45), transparent 55%);
+  opacity: 0.7;
+}
+
+.panel:hover {
+  transform: translateY(-6px);
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(139, 92, 246, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.panel__head {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  z-index: 1;
+}
+
+.panel__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1.18rem;
+  letter-spacing: 0.2px;
+  transition: color 0.25s ease;
+}
+
+.panel:hover .panel__title {
+  color: var(--color-primary-light);
+}
+
+.panel__subtitle {
+  margin: 0.4rem 0 0;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+/* Body stretches so both panels feel equal */
+.panel__body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: grid;
+  gap: 1.2rem;
+
+  flex: 1;           /* important: fill remaining height */
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Skills groups ===== */
+.skill-group__title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.65rem;
+}
+
+.skill-group__title h4 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.skill-ico {
+  width: 18px;
+  height: 18px;
+  stroke: var(--color-primary-light);
+  stroke-width: 2;
+  fill: none;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.22));
+}
+
+/* pills = match your tags style */
+.skill-pills {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.skill-pills li {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text-secondary);
+
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease, color 0.25s ease;
+}
+
+/* icon + text inside the pill */
+.pill-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* small icon inside each pill */
+.pill-ico {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  opacity: 0.95;
+}
+
+/* when panel hovers, icons glow subtly too */
+.panel:hover .pill-ico {
+  filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.18));
+}
+
+/* same behaviour as project tags on hover */
+.panel:hover .skill-pills li {
+  border-color: rgba(139, 92, 246, 0.22);
+  background: rgba(139, 92, 246, 0.08);
+  color: rgba(241, 245, 249, 0.9);
+}
+
+/* ===== Education items (make them feel like small “inner cards”) ===== */
+.edu-item {
+  padding: 1rem 1rem;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  transition: transform 0.2s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.panel:hover .edu-item {
+  border-color: rgba(139, 92, 246, 0.18);
+  background: rgba(139, 92, 246, 0.06);
+}
+
+.edu-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.edu-title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.edu-pill {
+  font-size: 0.85rem;
+  white-space: nowrap;
+
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  background: rgba(139, 92, 246, 0.10);
+  color: rgba(241, 245, 249, 0.9);
+}
+
+.edu-desc {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 950px) {
+  .skills-edu__grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .edu-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 /* =========================
    CONTACT
 ========================= */
