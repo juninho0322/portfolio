@@ -15,6 +15,12 @@ const navMap = Object.fromEntries(
 const sections = [...document.querySelectorAll("section[id]")]
   .filter((sec) => navMap[sec.id]);
 
+  // Hide sections from the start (so there's no "flash then animate")
+sections.forEach((sec) => {
+  gsap.set(sec, { autoAlpha: 0, y: 60 });
+});
+
+
 const clearActive = () => {
   navLinks.forEach((a) => a.classList.remove("active"));
 };
@@ -32,12 +38,11 @@ const sectionObserver = new IntersectionObserver(
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
     if (visible) {
-  setActive(visible.target.id);
-
-  animateSection(visible.target); // 👈 this calls the function from gsap.js
-}
+      setActive(visible.target.id);
+      animateSection(visible.target);
+    }
   },
-  { threshold: 0.5 }
+  { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
 );
 
 sections.forEach((sec) => sectionObserver.observe(sec));
@@ -102,4 +107,5 @@ document.addEventListener("keydown", (e) => {
       });
   }
 });
+
 
