@@ -18,11 +18,20 @@
     if (!toggleBtn || !layer || !ship) return;
 
     const isTouchDevice =
-        "ontouchstart" in window || navigator.maxTouchPoints > 0 || window.matchMedia("(pointer: coarse)").matches;
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia("(pointer: coarse)").matches;
 
     if (isTouchDevice) {
-        // Hide button + stop script from doing anything on mobile
-        toggleBtn?.remove(); // or toggleBtn.style.display = "none";
+        // Hide all destroy-mode UI on mobile
+        ship.style.display = "none";
+        layer.style.display = "none";
+        toggleBtn.style.display = "none";
+
+        // Optional: also hide intro/flash if they exist
+        document.querySelector(".destroy-intro")?.style.setProperty("display", "none");
+        document.querySelector(".page-flash")?.style.setProperty("display", "none");
+
         return;
     }
 
