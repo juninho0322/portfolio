@@ -1,0 +1,454 @@
+/* =========================
+   DESTROY MODE UI
+========================= */
+
+.destroy-toggle {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: var(--z-destroy-toggle);
+
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  background: rgba(15, 15, 23, 0.6);
+  color: var(--color-text-primary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  cursor: pointer;
+  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.2s ease;
+
+  /* hidden by default until sentinel shows it */
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+.destroy-toggle.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.destroy-toggle:hover { transform: translateY(-1px); }
+.destroy-toggle.is-on { border-color: rgba(139, 92, 246, 0.8); }
+
+/* The overlay layer */
+.destroy-layer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-destroy-layer);
+  isolation: isolate;
+  pointer-events: none;
+}
+
+.destroy-rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: var(--z-destroy-rain);
+}
+
+.destroy-particle {
+  position: absolute;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to bottom,
+    rgba(167, 139, 250, 0.05),
+    rgba(167, 139, 250, 0.95),
+    rgba(56, 189, 248, 0.15)
+  );
+  box-shadow: 0 0 9px rgba(167, 139, 250, 0.6);
+  will-change: transform, opacity;
+}
+
+.burn-decal {
+  position: fixed;
+  z-index: var(--z-destroy-crosshair);
+  pointer-events: none;
+  border-radius: 48% 52% 43% 57% / 52% 43% 57% 48%;
+  background:
+    radial-gradient(closest-side, rgba(255, 150, 55, 0.26), rgba(255, 80, 20, 0.16) 55%, rgba(18, 12, 10, 0.88) 100%),
+    radial-gradient(closest-side, rgba(255, 200, 120, 0.18), rgba(0, 0, 0, 0) 70%);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.55), 0 0 8px rgba(255, 120, 40, 0.22);
+  mix-blend-mode: multiply;
+  will-change: opacity, transform;
+}
+
+/* Ship */
+.ship {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  z-index: var(--z-ship);
+  transform: translate(-50%, -50%) rotate(0deg);
+  background: url("../img/space.png") center/contain no-repeat;
+  pointer-events: none;
+  transition: transform 0.08s linear;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Thruster flame */
+.ship::after {
+  content: "";
+  position: absolute;
+  left: -36px;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  transform: translateY(-50%);
+  background: url("../img/fire.png") center/contain no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.35));
+}
+
+.ship.is-thrusting::after {
+  opacity: 1;
+  animation: flameFlicker 120ms infinite alternate;
+}
+
+@keyframes flameFlicker {
+  from { transform: translateY(-50%) scale(0.9); }
+  to   { transform: translateY(-50%) scale(1.05); }
+}
+
+/* Laser (if you still use it anywhere) */
+.laser {
+  position: absolute;
+  pointer-events: none;
+  height: 3px;
+  transform-origin: 0 50%;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    rgba(139, 92, 246, 0),
+    rgba(139, 92, 246, 1),
+    rgba(167, 139, 250, 1),
+    rgba(139, 92, 246, 0)
+  );
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.8);
+  animation: laserFade 180ms ease-out forwards;
+}
+
+@keyframes laserFade {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Screen vibe */
+body.destroy-mode-on {
+  cursor: none;
+}
+
+/* Sentinel tiny */
+#destroy-sentinel {
+  height: 1px;
+}
+
+/* Flash + shake */
+.page-flash {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-page-flash);
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(241, 245, 249, 0.95);
+  mix-blend-mode: normal;
+}
+
+.page-flash.is-on {
+  animation: flashBlink 480ms ease-in-out;
+}
+
+@keyframes flashBlink {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  40% { opacity: 0; }
+  60% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+body.page-shake {
+  animation: pageShake 600ms ease-in-out;
+}
+
+@keyframes pageShake {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-6px, 2px); }
+  20% { transform: translate(6px, -2px); }
+  30% { transform: translate(-5px, -1px); }
+  40% { transform: translate(5px, 2px); }
+  60% { transform: translate(-3px, 1px); }
+  80% { transform: translate(3px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Intro overlay */
+.destroy-intro {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-destroy-intro);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.destroy-intro.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.destroy-intro__panel {
+  width: min(520px, 92vw);
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(15, 15, 23, 0.82);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.destroy-intro__title { margin: 0 0 8px; }
+
+.destroy-intro__text {
+  margin: 0 0 14px;
+  color: var(--color-text-secondary);
+}
+
+.destroy-intro__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.destroy-start,
+.destroy-cancel {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.destroy-start {
+  border-color: rgba(139, 92, 246, 0.5);
+  background: rgba(139, 92, 246, 0.18);
+}
+
+.destroy-start:hover { transform: translateY(-1px); }
+.destroy-cancel:hover { transform: translateY(-1px); }
+
+/* Crosshair (if you ever re-enable mouse later) */
+.destroy-crosshair {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(167, 139, 250, 0.9);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: var(--z-destroy-crosshair);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
+}
+
+.destroy-crosshair::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+  background: rgba(167, 139, 250, 0.9);
+  border-radius: 50%;
+}
+
+/* =========================
+   DAMAGE FEEDBACK (blur + cracks)
+   NOTE: we use ::after for cracks on purpose.
+   Your premium cards already use ::before for borders,
+   so ::before cracks would break those borders.
+========================= */
+
+.destroy-mode-on .destroyable {
+  --damage: 0;
+  position: relative;
+  transition: filter 160ms ease, transform 160ms ease;
+  transform-origin: center;
+  filter:
+    blur(calc(var(--damage) * 1.6px))
+    grayscale(calc(var(--damage) * 0.45))
+    contrast(calc(1 + var(--damage) * 0.35))
+    brightness(calc(1 - var(--damage) * 0.18));
+}
+
+.destroy-mode-on .destroyable.hit-pulse {
+  animation: hitPulse 220ms cubic-bezier(.2,.8,.2,1);
+}
+
+.destroy-mode-on .destroyable.hit-pulse::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  border-radius: inherit;
+  border: 1px solid hsla(var(--hit-hue, 24), 96%, 68%, calc(var(--hit-glow, 0.6) * 0.85));
+  box-shadow:
+    0 0 10px hsla(var(--hit-hue, 24), 96%, 62%, calc(var(--hit-glow, 0.6))),
+    inset 0 0 10px hsla(var(--hit-hue, 24), 92%, 65%, calc(var(--hit-glow, 0.45)));
+}
+
+@keyframes hitPulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  38% { transform: scale(var(--hit-scale, 1.03)); filter: brightness(1.22); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+
+/* Cracks overlay (takes over ::after during destroy mode = better readability) */
+.destroy-mode-on .destroyable::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  opacity: calc(var(--damage) * 0.85);
+  background:
+    linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.22) 41%, transparent 44%),
+    linear-gradient(25deg, transparent 52%, rgba(255,255,255,0.18) 53%, transparent 56%),
+    linear-gradient(165deg, transparent 58%, rgba(255,255,255,0.16) 59%, transparent 62%);
+  mix-blend-mode: screen;
+  filter: blur(0.2px);
+  z-index: var(--z-damage-cracks);
+}
+
+/* Your JS hides destroyed elements with visibility:hidden.
+   So keep .destroyed simple and compatible. */
+.destroyed {
+  pointer-events: none !important;
+}
+
+/* =========================
+   HUD + TOAST
+========================= */
+
+.destroy-hud {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-destroy-hud);
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(15, 15, 23, 0.55);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font: 600 13px/1.1 system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: 0.2px;
+  display: none;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: min(92vw, 880px);
+  color: #f1f5f9;
+}
+
+.destroy-hud b { font-weight: 800; }
+
+.destroy-hud .pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.18);
+}
+
+.destroy-toast {
+  position: fixed;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-destroy-toast);
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(15, 15, 23, 0.75);
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
+  color: #f1f5f9;
+}
+.hero { position: relative; }
+
+.hero-hit-bg{
+  position:absolute;
+  inset:0;
+  z-index: var(--z-hero-hit-bg);
+  pointer-events:none;
+}
+
+.hero-hit-divider{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:1px;
+  z-index: var(--z-hero-hit-divider);
+  pointer-events:none;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(139, 92, 246, 0.15) 25%,
+    rgba(139, 92, 246, 0.5) 50%,
+    rgba(139, 92, 246, 0.15) 75%,
+    transparent 100%
+  );
+}
+
+/* =========================
+   DESTROY MODE: keep ship ABOVE flash (already good)
+========================= */
+.page-flash { z-index: var(--z-page-flash); }
+.destroy-layer { z-index: var(--z-destroy-layer); }
+
+/* OPTIONAL: stop flash blend affecting anything weird */
+.destroy-mode-on .page-flash {
+  mix-blend-mode: normal;
+}
+
+/* =========================
+   DESTROY MODE: "border destroyed" classes
+   (we remove borders WITHOUT hiding whole sections/cards)
+========================= */
+
+/* Sections that use .border-gradient (border-image) */
+.destroy-mode-on .border-destroyed.border-gradient {
+  border-image: none !important;
+  border-color: transparent !important;
+}
+
+/* Your divider gradient line at bottom of hero */
+.destroy-mode-on .hero-hit-divider.border-destroyed {
+  background: transparent !important;
+}
+
+/* Premium card border layer is ::before on these */
+.destroy-mode-on .card-border-destroyed::before {
+  opacity: 0 !important;
+}
+
+/* Premium glow layer is ::after — in destroy mode you override ::after for cracks,
+   but for safety we can also reduce it when border is destroyed */
+.destroy-mode-on .card-border-destroyed::after {
+  opacity: 0 !important;
+}

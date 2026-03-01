@@ -1,0 +1,127 @@
+/* =========================
+   VARIABLES
+========================= */
+
+:root {
+  --color-bg-primary: #0f0f17;
+  --color-bg-secondary: #161622;
+
+  --color-primary: #8b5cf6;
+  --color-primary-dark: #7c3aed;
+  --color-primary-light: #a78bfa;
+
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+
+  --color-border: #1f1f2e;
+  --color-glow: rgba(139, 92, 246, 0.3);
+
+  /* ===== Premium card system ===== */
+  --card-radius: 18px;
+  --card-border-grad: linear-gradient(
+    135deg,
+    rgba(167, 139, 250, 0.65),
+    rgba(139, 92, 246, 0.25),
+    rgba(124, 58, 237, 0.65)
+  );
+
+  /* ===== Layering (single source of truth) ===== */
+  --z-content-layer: 1;
+  --z-header: 100;
+  --z-project-modal: 5;
+  --z-destroy-toggle: 9999;
+  --z-destroy-layer: 10030;
+  --z-destroy-rain: 0;
+  --z-ship: 2;
+  --z-hero-hit-bg: 0;
+  --z-hero-hit-divider: 1;
+  --z-page-flash: 10010;
+  --z-destroy-intro: 10001;
+  --z-destroy-crosshair: 10002;
+  --z-damage-cracks: 3;
+  --z-destroy-hud: 10010;
+  --z-destroy-toast: 10011;
+  --z-thanks-overlay: 10050;
+  --z-easter-hint: 999999;
+}
+
+/* =========================
+   RESET
+========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container {
+  width: min(1100px, 90%);
+  margin: 0 auto;
+  padding: 3em;
+  /* min-height: 90vh; */
+}
+
+/* stack on small screens */
+@media (max-width: 950px) {
+  .container-mobile {
+    text-align: center;
+    padding: 0;
+    padding-bottom: 3rem;
+  }
+  .container-mobile:first-child {
+    padding-top: 2rem;
+  }
+}
+
+.border-gradient {
+  border: 1px solid transparent; /* create border box */
+  border-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(139, 92, 246, 0.15) 25%,
+      rgba(139, 92, 246, 0.5) 50%,
+      rgba(139, 92, 246, 0.15) 75%,
+      transparent 100%
+    )
+    1;
+}
+
+.border-top {
+  border-width: 1px 0 0 0;
+}
+
+.border-bottom {
+  border-width: 0 0 1px 0;
+}

@@ -10,7 +10,6 @@
   </head>
 
   <body>
-     <div class="site-wrap"></div>
     <header class="site-header border-gradient border-bottom">
       <nav class="nav" aria-label="Primary">
         <a class="logo" href="#hero">Luis4L</a>
@@ -25,13 +24,14 @@
     </header>
 
     <main id="main">
+      <div class="easter-hint">🥚 EASTER EGG 🥚 </br>AT THE BOTTOM OF THE PAGE</div>
       <section
         class="hero border-gradient border-bottom"
         aria-labelledby="hero-title"
         id="hero"
       >
-      <div class="hero-hit-bg destroy-ui"></div>
-<div class="hero-hit-divider destroy-ui"></div>
+        <div class="hero-hit-bg destroy-ui"></div>
+        <div class="hero-hit-divider destroy-ui"></div>
         <div class="container container-mobile">
           <p class="hero__tag">Front-End Developer • CS Student</p>
           <h1 class="hero__subtitle">
@@ -222,6 +222,7 @@
                   src="./img/portfolio.png"
                   alt="Luis Carlos Fernandes Junior personal portfolio preview"
                   loading="lazy"
+                  decoding="async"
                 />
               </a>
 
@@ -318,6 +319,7 @@
                   src="./img/little.png"
                   alt="Little Lemon preview"
                   loading="lazy"
+                  decoding="async"
                 />
               </a>
 
@@ -417,6 +419,7 @@
                   src="./img/resiliency.png"
                   alt="Resiliency Tattoo Shop website preview"
                   loading="lazy"
+                  decoding="async"
                 />
               </a>
 
@@ -523,11 +526,9 @@
         class="skills-edu border-gradient border-bottom"
         aria-labelledby="skills-title"
       >
-      
         <div class="container container-mobile">
           <div class="section-head">
-            <h2 id="skills-title">Skills
-            </h2>
+            <h2 id="skills-title">Skills</h2>
           </div>
 
           <div class="skills-edu__grid">
@@ -535,9 +536,7 @@
             <article class="project-card panel" aria-label="Skills">
               <header class="panel__head border-gradient border-bottom">
                 <h3 class="panel__title">Core stack</h3>
-                <p class="panel__subtitle">
-                  Tools I use day-to-day
-                </p>
+                <p class="panel__subtitle">Tools I use day-to-day</p>
               </header>
 
               <div class="panel__body">
@@ -759,7 +758,6 @@
         class="border-gradient border-bottom"
         aria-labelledby="contact-title"
       >
-      
         <div class="container container-mobile mobile-contact">
           <div class="section-head">
             <h2 id="contact-title">Contact</h2>
@@ -849,10 +847,18 @@
                 </button>
               </form>
 
-              <div class="contact-divider border-gradient border-bottom" aria-hidden="true"></div>
+              <div
+                class="contact-divider border-gradient border-bottom"
+                aria-hidden="true"
+              ></div>
 
               <div class="contact-links">
-                <a class="link-btn" href="https://www.linkedin.com/in/luis-carlos-fernandes-junior-19660bb6/" target="_blank" rel="noreferrer">
+                <a
+                  class="link-btn"
+                  href="https://www.linkedin.com/in/luis-carlos-fernandes-junior-19660bb6/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M4 4h16v16H4z" />
                     <path d="M7 10v7M7 8v.01" />
@@ -861,7 +867,12 @@
                   LinkedIn
                 </a>
 
-                <a class="link-btn" href="https://github.com/juninho0322" target="_blank" rel="noreferrer">
+                <a
+                  class="link-btn"
+                  href="https://github.com/juninho0322"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true">
                     <path
                       d="M12 .5C5.7.5.5 5.8.5 12.3c0 5.2 3.4 9.6 8.2 11.2.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.4-1.4-5.4-6.1 0-1.3.4-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11 11 0 016 0C17.9 4 19 4.3 19 4.3c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.8-2.8 5.8-5.5 6.1.4.4.8 1.1.8 2.3v3.4c0 .3.2.7.8.6 4.8-1.6 8.2-6 8.2-11.2C23.5 5.8 18.3.5 12 .5z"
@@ -870,9 +881,11 @@
                   GitHub
                 </a>
 
-                <a class="link-btn" href="./assets/Luis_Fernandes_Cv.pdf"
-                 target="_blank" 
-   rel="noopener"
+                <a
+                  class="link-btn"
+                  href="./assets/Luis_Fernandes_Cv.pdf"
+                  target="_blank"
+                  rel="noopener"
                 >
                   <svg class="link-ico" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M6 2h9l3 3v17H6z" />
@@ -888,70 +901,78 @@
       </section>
     </main>
     <!-- Detect when user reaches bottom -->
-<div id="destroy-sentinel" aria-hidden="true"></div>
+    <div id="destroy-sentinel" aria-hidden="true"></div>
 
     <footer class="site-footer">
       <small>© <span id="year"></span> Luis4L. All rights reserved.</small>
 
       <!-- Destroy Mode UI -->
-<button class="destroy-toggle" type="button" aria-pressed="false">
-  🛸 Destroy Mode
-</button>
+      <button class="destroy-toggle" type="button" aria-pressed="false">
+        🛸 Destroy Mode
+      </button>
 
-<!-- FX layer -->
-<div class="destroy-layer" aria-hidden="true">
-  <div class="ship" aria-hidden="true"></div>
-</div>
+      <!-- FX layer -->
+      <div class="destroy-layer" aria-hidden="true">
+        <div class="ship" aria-hidden="true"></div>
+      </div>
     </footer>
 
     <!-- Flash layer -->
-<div class="page-flash" aria-hidden="true"></div>
+    <div class="page-flash" aria-hidden="true"></div>
 
-<!-- Intro overlay -->
-<div class="destroy-intro" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="destroy-intro__panel" role="document">
-    <h2>Destroy Mode</h2>
+    <!-- Intro overlay -->
+    <div
+      class="destroy-intro"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="destroy-intro__panel" role="document">
+        <h2>Destroy Mode</h2>
 
-    <p>Controls (keyboard only):</p>
-    <ul>
-      <li><b>A / ←</b> move ship left</li>
-      <li><b>D / →</b> move ship right</li>
-      <li><b>W / ↑</b> scroll up (mouse-wheel feel)</li>
-      <li><b>S / ↓</b> scroll down</li>
-      <li><b>F</b> shoot</li>
-      <li><b>ESC</b> exit destroy mode</li>
-    </ul>
+        <p>Controls (keyboard only):</p>
+        <ul>
+          <li><b>A / ←</b> move ship left</li>
+          <li><b>D / →</b> move ship right</li>
+          <li><b>Shift</b> precision movement</li>
+          <li><b>W / ↑</b> scroll up (mouse-wheel feel)</li>
+          <li><b>S / ↓</b> scroll down</li>
+          <li><b>F</b> shoot</li>
+          <li><b>1 / 2 / 3</b> swap weapon</li>
+          <li><b>P</b> pause / resume</li>
+          <li><b>ESC</b> exit destroy mode</li>
+        </ul>
 
-    <p><b>Tip:</b> Each target needs <b>3 hits</b> to disappear.</p>
+        <p><b>Tip:</b> Each target needs <b>3 hits</b> to disappear.</p>
 
-    <div class="destroy-intro__actions">
-      <button class="destroy-start">Start</button>
-      <button class="destroy-cancel">Cancel</button>
+        <div class="destroy-intro__actions">
+          <button class="destroy-start">Start</button>
+          <button class="destroy-cancel">Cancel</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- =========================
+    <!-- =========================
      PORTFOLIO THANK YOU POPUP
 ========================= -->
-<div class="portfolio-thanks" aria-hidden="true">
-  <div class="portfolio-thanks__card">
-    <h3>🚀 Mission Complete</h3>
-    <p>
-      Thanks for checking my portfolio.<br />
-      Hope you enjoyed the experience.
-    </p>
-    <button class="portfolio-thanks__close">Close</button>
-  </div>
-</div>
+    <div class="portfolio-thanks" aria-hidden="true">
+      <div class="portfolio-thanks__card">
+        <h3>🚀 Mission Complete</h3>
+        <p>
+          Thanks for checking my portfolio.<br />
+          Hope you enjoyed the experience.
+        </p>
+        <button class="portfolio-thanks__close">Close</button>
+      </div>
+    </div>
 
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" ></script>
-<script src="./scripts/gsap.js" ></script>
-<script src="./scripts/script.js" ></script>
-<script src="./scripts/destroy-mode.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="./scripts/gsap.js"></script>
+    <script src="./scripts/script.js"></script>
+    <script type="module" src="./scripts/destroy-mode.js"></script>
   </body>
 </html>

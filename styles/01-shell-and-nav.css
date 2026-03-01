@@ -1,0 +1,149 @@
+/* =========================
+   PREMIUM CARD BORDERS (ALL CARDS)
+   Applies to: project cards, about panels, skills panels, contact card, code-window
+========================= */
+
+.project-card,
+.about__panel,
+.panel,
+.contact-card,
+.code-window {
+  position: relative;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+}
+
+/* gradient border layer */
+.about__panel::before,
+.panel::before,
+.contact-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px; /* border thickness */
+  border-radius: inherit;
+  background: var(--card-border-grad);
+  pointer-events: none;
+  opacity: 0.55;
+
+  /* mask trick = only show border, not fill */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* subtle glow behind border for depth */
+.project-card::after,
+.about__panel::after,
+.panel::after,
+.contact-card::after,
+.code-window::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.22), transparent 45%);
+  filter: blur(22px);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Keep content above the border/glow layers */
+.project-card > *,
+.about__panel > *,
+.panel > *,
+.contact-card > *,
+.code-window > * {
+  position: relative;
+  z-index: var(--z-content-layer);
+}
+
+/* Hover: power up the border + glow */
+.project-card:hover::before,
+.about__panel:hover::before,
+.panel:hover::before,
+.contact-card:hover::before,
+.code-window:hover::before {
+  opacity: 0.95;
+}
+
+.project-card:hover::after,
+.about__panel:hover::after,
+.panel:hover::after,
+.contact-card:hover::after,
+.code-window:hover::after {
+  opacity: 0.45;
+}
+
+/* =========================
+   HEADER / NAV
+========================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+
+  background: rgba(15, 15, 23, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+  height: 10vh;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+}
+
+.nav__list {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav__list a {
+  position: relative;
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.nav__list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(139, 92, 246, 0.25),
+    rgba(139, 92, 246, 0.7),
+    rgba(139, 92, 246, 0.25),
+    transparent
+  );
+
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+
+/* hover */
+.nav__list a:hover::after,
+.nav__list a.active::after {
+  transform: scaleX(1);
+}
+
+.nav__list a.active {
+  color: var(--color-primary);
+}
+

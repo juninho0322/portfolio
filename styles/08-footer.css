@@ -1,0 +1,9 @@
+/* =========================
+   FOOTER
+========================= */
+
+.site-footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,345 @@
+/* =========================
+   PROJECTS
+========================= */
+
+/* ===== Projects Grid  ===== */
+.projects-grid {
+  display: grid;
+  gap: 4rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Center the last card ONLY when there’s an odd number of cards (e.g. 3) */
+.projects-grid > .project-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(520px, 100%);
+}
+
+/* Mobile: 1 per row, everything full width */
+@media (max-width: 950px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .project-card {
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .project-body {
+    padding: 1.4rem;
+  }
+
+  .projects-grid > .project-card:last-child:nth-child(odd) {
+    grid-column: auto;
+    justify-self: stretch;
+    width: 100%;
+  }
+}
+
+/* ===== Card ===== */
+.project-card {
+  background: linear-gradient(160deg, rgba(22, 22, 34, 0.98), rgba(15, 15, 23, 0.98));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55), 0 0 22px rgba(139, 92, 246, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+/* =========================
+   PROJECT-CARD as universal card
+========================= */
+
+.project-card.panel,
+.project-card.contact-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card.panel .panel__head,
+.project-card.panel .panel__body,
+.project-card.contact-card .contact-card__head,
+.project-card.contact-card .contact-card__body {
+  position: relative;
+  z-index: var(--z-content-layer);
+}
+
+.project-card.panel .panel__head,
+.project-card.contact-card .contact-card__head {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.project-card.panel .panel__body,
+.project-card.contact-card .contact-card__body {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+/* ===== Thumbnail ===== */
+.project-thumb {
+  display: block;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.project-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: linear-gradient(to bottom, rgba(15, 15, 23, 0.35) 0%, rgba(15, 15, 23, 0) 22%),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 52%,
+      rgba(15, 15, 23, 0.55) 76%,
+      rgba(15, 15, 23, 0.92) 100%
+    );
+
+  opacity: 1;
+}
+
+.project-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.001);
+  transition: transform 0.55s ease, filter 0.35s ease;
+}
+
+.project-card:hover .project-thumb img {
+  transform: scale(1.07);
+  filter: saturate(1.05) contrast(1.02);
+}
+
+/* ===== Body ===== */
+.project-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.project-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.project-card h3 {
+  margin: 0;
+  font-size: 1.18rem;
+  letter-spacing: 0.2px;
+  color: var(--color-text-primary);
+  transition: color 0.25s ease;
+}
+
+.project-card:hover h3 {
+  color: var(--color-primary-light);
+}
+
+.project-date {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.project-short {
+  color: var(--color-text-secondary);
+  margin: 0.9rem 0 1rem;
+  line-height: 1.65;
+}
+
+/* ===== Tags ===== */
+.tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0 0 1.25rem;
+}
+
+.tags li {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text-secondary);
+
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.project-card:hover .tags li {
+  border-color: rgba(139, 92, 246, 0.22);
+  background: rgba(139, 92, 246, 0.08);
+  color: rgba(241, 245, 249, 0.9);
+}
+
+/* ===== Footer ===== */
+.project-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* ===== Links ===== */
+.project-links {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.project-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.45rem 0.9rem;
+  border-radius: 12px;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+
+  text-decoration: none;
+  color: var(--color-text-primary);
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  transition: transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.project-links a:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.45);
+  background: rgba(139, 92, 246, 0.08);
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.project-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.project-links .icon {
+  width: 16px;
+  height: 16px;
+
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+
+  opacity: 0.9;
+}
+
+/* ===== + Button ===== */
+.project-more {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  background: rgba(139, 92, 246, 0.1);
+
+  color: var(--color-text-primary);
+  font-size: 1.3rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.project-more:hover {
+  transform: translateY(-2px) rotate(6deg);
+  background: rgba(139, 92, 246, 0.16);
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.22), 0 12px 26px rgba(0, 0, 0, 0.45);
+}
+
+/* ===== Modal ===== */
+.project-modal {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-project-modal);
+
+  opacity: 0;
+  pointer-events: none;
+
+  background: radial-gradient(circle at 30% 0%, rgba(139, 92, 246, 0.25), transparent 45%),
+    rgba(15, 15, 23, 0.88);
+  backdrop-filter: blur(10px);
+
+  transform: translateY(100%);
+  transition: transform 280ms ease, opacity 200ms ease;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card.is-open .project-modal {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.project-modal__close {
+  align-self: flex-end;
+  margin: 12px 12px 0 0;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-primary);
+  cursor: pointer;
+
+  transition: transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-modal__close:hover {
+  transform: translateY(-2px);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.18);
+}
+
+.project-modal__content {
+  flex: 1;
+  padding: 1rem 1.5rem 1.5rem;
+  overflow: auto;
+}
+
+.project-modal__title {
+  margin: 0 0 0.6rem;
+  color: var(--color-text-primary);
+}
+
+.project-modal__desc,
+.project-modal__list {
+  color: var(--color-text-secondary);
+}

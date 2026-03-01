@@ -2,8 +2,6 @@
    NAV MENU OBERSERVER
 ========================= */
 
-console.log("script.js loaded ✅");
-
 // ===== NAV ACTIVE LINK (Scroll + Click) =====
 const navLinks = document.querySelectorAll(".nav__list a");
 const hero = document.querySelector(".hero"); // your first section (not in nav)
@@ -82,12 +80,17 @@ cards.forEach((card) => {
   const openBtn = card.querySelector(".project-more");
   const modal = card.querySelector(".project-modal");
   const closeBtn = card.querySelector(".project-modal__close");
+  if (!openBtn || !modal || !closeBtn) return;
 
   // Open modal
   openBtn.addEventListener("click", () => {
     // close any other open card first
     document.querySelectorAll(".project-card.is-open")
-      .forEach(c => c.classList.remove("is-open"));
+      .forEach(c => {
+        c.classList.remove("is-open");
+        c.querySelector(".project-modal")
+          ?.setAttribute("aria-hidden", "true");
+      });
 
     card.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
@@ -112,5 +115,39 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+function runEasterHint() {
+  const hint = document.querySelector(".easter-hint");
+  if (!hint) return;
 
+  // reset (in case of hot reload / cache)
+  hint.style.opacity = "0";
+  hint.style.transition = "none";
+
+  setTimeout(() => {
+    hint.style.opacity = "1";
+
+    hint.animate(
+      [
+        { opacity: 1 },
+        { opacity: 0.2 },
+        { opacity: 1 },
+        { opacity: 0.2 },
+        { opacity: 1 }
+      ],
+      { duration: 900, easing: "ease-in-out" }
+    );
+
+    setTimeout(() => {
+      hint.style.transition = "opacity 0.6s ease";
+      hint.style.opacity = "0";
+    }, 1100);
+  }, 600);
+}
+
+// ✅ run even if DOMContentLoaded already passed
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", runEasterHint);
+} else {
+  runEasterHint();
+}
 
