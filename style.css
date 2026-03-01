@@ -290,11 +290,9 @@ img {
   margin-bottom: 0.5rem;
   font-weight: 500;
   font-size: clamp(1rem, 1.5vw, 2rem);
+  padding-top: 3rem;
 }
 
-.hero__tag{
-  padding-bottom: 3rem;
-}
 
 .hero h1 {
   font-size: clamp(2rem, 5vw, 3.5rem);
