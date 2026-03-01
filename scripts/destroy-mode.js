@@ -534,6 +534,30 @@
 
         sections.forEach((sec) => sectionObserver.observe(sec));
         positionShip(shipX);
+
+        let touchActive = false;
+
+        function onTouchStart(e) {
+            if (!isOn) return;
+            touchActive = true;
+            const t = e.touches[0];
+            positionShip(t.clientX);
+            fireBullet(); // tap shoots
+        }
+
+        function onTouchMove(e) {
+            if (!isOn || !touchActive) return;
+            const t = e.touches[0];
+            positionShip(t.clientX); // drag moves ship
+        }
+
+        function onTouchEnd() {
+            touchActive = false;
+        }
+
+        window.addEventListener("touchstart", onTouchStart, { passive: true });
+        window.addEventListener("touchmove", onTouchMove, { passive: true });
+        window.addEventListener("touchend", onTouchEnd);
     }
 
     function stopMode() {
@@ -555,7 +579,7 @@
 
         if (hud) hud.style.display = "none";
         if (toast) toast.style.display = "none";
-        
+
     }
 
     // ----------------------------
@@ -632,77 +656,77 @@
     // DESTROY (HP)
     // ----------------------------
     async function destroyElement(el) {
-  // safety
-  if (!el || el.classList.contains("destroyed") || el.style.visibility === "hidden") return;
+        // safety
+        if (!el || el.classList.contains("destroyed") || el.style.visibility === "hidden") return;
 
-  // ✅ every hit counts
-  totalHits++;
-  score += 5;
-  updateHUD();
+        // ✅ every hit counts
+        totalHits++;
+        score += 5;
+        updateHUD();
 
-  // take 1 HP
-  const prevHp = Number(el.dataset.hp || 1);
-  const hp = prevHp - 1;
-  el.dataset.hp = String(hp);
+        // take 1 HP
+        const prevHp = Number(el.dataset.hp || 1);
+        const hp = prevHp - 1;
+        el.dataset.hp = String(hp);
 
-  applyDamageVisual(el);
+        applyDamageVisual(el);
 
-  // small hit feedback
-  el.animate(
-    [
-      { transform: "translate(0,0) scale(1)" },
-      { transform: "translate(2px,-2px) scale(1.01)" },
-      { transform: "translate(-2px,2px) scale(1.01)" },
-      { transform: "translate(0,0) scale(1)" },
-    ],
-    { duration: 160, easing: "ease-out" }
-  );
+        // small hit feedback
+        el.animate(
+            [
+                { transform: "translate(0,0) scale(1)" },
+                { transform: "translate(2px,-2px) scale(1.01)" },
+                { transform: "translate(-2px,2px) scale(1.01)" },
+                { transform: "translate(0,0) scale(1)" },
+            ],
+            { duration: 160, easing: "ease-out" }
+        );
 
-  // ✅ if still alive, stop here (but hit/score already updated)
-  if (hp > 0) return;
+        // ✅ if still alive, stop here (but hit/score already updated)
+        if (hp > 0) return;
 
-  // ✅ NOW it's destroyed
-  el.classList.add("destroyed");
-  el.style.pointerEvents = "none";
-  el.style.visibility = "hidden";
+        // ✅ NOW it's destroyed
+        el.classList.add("destroyed");
+        el.style.pointerEvents = "none";
+        el.style.visibility = "hidden";
 
-  shakeOnDestroy();
+        shakeOnDestroy();
 
-  // bonuses + special actions
-  if (el.dataset.kind === "section") {
-    score += 35;
-    showToast("💥 BORDER DOWN +35");
-    updateHUD();
-  }
+        // bonuses + special actions
+        if (el.dataset.kind === "section") {
+            score += 35;
+            showToast("💥 BORDER DOWN +35");
+            updateHUD();
+        }
 
-  if (el.dataset.kind === "header") {
-    score += 100;
-    showToast("👑 NAVBAR DOWN +100");
-    updateHUD();
+        if (el.dataset.kind === "header") {
+            score += 100;
+            showToast("👑 NAVBAR DOWN +100");
+            updateHUD();
 
-    // ✅ show popup ONLY when navbar is actually destroyed (hp hit 0)
-    if (!thanksShown) {
-      thanksShown = true;
-      openThanksPopup();
+            // ✅ show popup ONLY when navbar is actually destroyed (hp hit 0)
+            if (!thanksShown) {
+                thanksShown = true;
+                openThanksPopup();
+            }
+
+            // ✅ end mode and go to top
+            stopMode();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+        }
+
+        // keep your “all cleared” logic
+        if (isEverythingCleared()) {
+            allClearSequence();
+            return;
+        }
+
+        // move to next section when current is cleared
+        if (activeSection && sectionIsCleared(activeSection)) {
+            await goToNextSection();
+        }
     }
-
-    // ✅ end mode and go to top
-    stopMode();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-
-  // keep your “all cleared” logic
-  if (isEverythingCleared()) {
-    allClearSequence();
-    return;
-  }
-
-  // move to next section when current is cleared
-  if (activeSection && sectionIsCleared(activeSection)) {
-    await goToNextSection();
-  }
-}
     // ----------------------------
     // BULLETS + COLLISION
     // ----------------------------
