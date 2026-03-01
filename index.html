@@ -10,6 +10,7 @@
   </head>
 
   <body>
+     <div class="site-wrap"></div>
     <header class="site-header border-gradient border-bottom">
       <nav class="nav" aria-label="Primary">
         <a class="logo" href="#hero">Luis4L</a>
@@ -29,6 +30,8 @@
         aria-labelledby="hero-title"
         id="hero"
       >
+      <div class="hero-hit-bg destroy-ui"></div>
+<div class="hero-hit-divider destroy-ui"></div>
         <div class="container container-mobile">
           <p class="hero__tag">Front-End Developer • CS Student</p>
           <h1 class="hero__subtitle">
@@ -881,17 +884,71 @@
         </div>
       </section>
     </main>
+    <!-- Detect when user reaches bottom -->
+<div id="destroy-sentinel" aria-hidden="true"></div>
 
     <footer class="site-footer">
       <small>© <span id="year"></span> Luis4L. All rights reserved.</small>
+
+      <!-- Destroy Mode UI -->
+<button class="destroy-toggle" type="button" aria-pressed="false">
+  🛸 Destroy Mode
+</button>
+
+<!-- FX layer -->
+<div class="destroy-layer" aria-hidden="true">
+  <div class="ship" aria-hidden="true"></div>
+</div>
     </footer>
+
+    <!-- Flash layer -->
+<div class="page-flash" aria-hidden="true"></div>
+
+<!-- Intro overlay -->
+<div class="destroy-intro" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="destroy-intro__panel" role="document">
+    <h2>Destroy Mode</h2>
+
+    <p>Controls (keyboard only):</p>
+    <ul>
+      <li><b>A / ←</b> move ship left</li>
+      <li><b>D / →</b> move ship right</li>
+      <li><b>W / ↑</b> scroll up (mouse-wheel feel)</li>
+      <li><b>S / ↓</b> scroll down</li>
+      <li><b>F</b> shoot</li>
+      <li><b>ESC</b> exit destroy mode</li>
+    </ul>
+
+    <p><b>Tip:</b> Each target needs <b>3 hits</b> to disappear.</p>
+
+    <div class="destroy-intro__actions">
+      <button class="destroy-start">Start</button>
+      <button class="destroy-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================
+     PORTFOLIO THANK YOU POPUP
+========================= -->
+<div class="portfolio-thanks" aria-hidden="true">
+  <div class="portfolio-thanks__card">
+    <h3>🚀 Mission Complete</h3>
+    <p>
+      Thanks for checking my portfolio.<br />
+      Hope you enjoyed the experience.
+    </p>
+    <button class="portfolio-thanks__close">Close</button>
+  </div>
+</div>
 
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-    <script src="./scripts/gsap.js"></script>
-    <script src="./scripts/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" ></script>
+<script src="./scripts/gsap.js" ></script>
+<script src="./scripts/script.js" ></script>
+<script src="./scripts/destroy-mode.js"></script>
   </body>
 </html>

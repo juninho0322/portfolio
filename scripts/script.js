@@ -2,6 +2,8 @@
    NAV MENU OBERSERVER
 ========================= */
 
+console.log("script.js loaded ✅");
+
 // ===== NAV ACTIVE LINK (Scroll + Click) =====
 const navLinks = document.querySelectorAll(".nav__list a");
 const hero = document.querySelector(".hero"); // your first section (not in nav)
@@ -17,7 +19,7 @@ const sections = [...document.querySelectorAll("section[id]")]
 
   // Hide sections from the start (so there's no "flash then animate")
 sections.forEach((sec) => {
-  gsap.set(sec, { autoAlpha: 0, y: 60 });
+  if (window.gsap) gsap.set(sec, { autoAlpha: 0, y: 60 });
 });
 
 
@@ -39,7 +41,9 @@ const sectionObserver = new IntersectionObserver(
 
     if (visible) {
       setActive(visible.target.id);
-      animateSection(visible.target);
+       if (typeof animateSection === "function") {
+    animateSection(visible.target);
+  }
     }
   },
   { threshold: 0.2, rootMargin: "0px 0px -10% 0px" }
@@ -107,5 +111,6 @@ document.addEventListener("keydown", (e) => {
       });
   }
 });
+
 
 

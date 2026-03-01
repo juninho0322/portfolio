@@ -124,12 +124,16 @@ img {
   position: relative;
   border-radius: var(--card-radius);
   overflow: hidden;
+
+
 }
 
 /* gradient border layer */
+
 .about__panel::before,
 .panel::before,
-.contact-card::before {
+.contact-card::before
+ {
   content: "";
   position: absolute;
   inset: 0;
@@ -266,8 +270,8 @@ img {
 
 .hero {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* vertical alignment */
+  justify-content: center; /* keeps group centered */
   gap: 1rem;
   min-height: 90vh;
   background: radial-gradient(circle at 20% 30%, var(--color-glow), transparent 40%),
@@ -309,11 +313,13 @@ img {
 }
 
 /* =========================
-   MAC CODE WINDOW
+   MAC CODE WINDOW (your HTML)
 ========================= */
 
 .code-window {
   width: min(900px, 100%);
+  /* margin: 2.5rem auto 0; */
+
   background: rgba(15, 15, 23, 0.65);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -327,6 +333,7 @@ img {
 
   padding: 0.9rem 1.1rem;
   background: rgba(255, 255, 255, 0.04);
+  
 }
 
 /* Traffic lights */
@@ -342,6 +349,7 @@ img {
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
 }
 
+/* macOS colours */
 .light.red {
   background: #ff5f57;
 }
@@ -372,6 +380,7 @@ img {
 }
 
 /* VSCode Style Code Layout */
+
 .code-content {
   padding: 1rem;
   font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
@@ -392,14 +401,28 @@ img {
 }
 
 /* VS Code Dark Theme Colours */
-.keyword { color: #ff7b72; }
-.string { color: #a5d6ff; }
-.boolean { color: #ff7b72; }
-.variable { color: #f1f5f9; }
-.function { color: #d2a8ff; }
+.keyword {
+  color: #ff7b72; /* red/pink */
+}
+
+.string {
+  color: #a5d6ff; /* light blue */
+}
+
+.boolean {
+  color: #ff7b72;
+}
+
+.variable {
+  color: #f1f5f9;
+}
+
+.function {
+  color: #d2a8ff; /* purple */
+}
 
 /* =========================
-   ABOUT SECTION
+   ABOUT SECTION (Flex layout)
 ========================= */
 
 .about {
@@ -410,7 +433,7 @@ img {
 .about__row {
   display: flex;
   gap: 2.5rem;
-  align-items: center;
+  align-items: center; /* vertical balance */
 }
 
 /* =========================
@@ -463,6 +486,7 @@ img {
   box-shadow: 0 34px 70px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
+/* panel inner spacing */
 .about__content {
   padding: 1.6rem 1.7rem 1.8rem;
 }
@@ -472,8 +496,8 @@ img {
 ========================= */
 
 .about__panel--main {
-  flex: 1.15;
-  max-width: none;
+  flex: 1.15; /* takes more space */
+  max-width: none; /* let flex control width */
 }
 
 .about__panel--main p {
@@ -483,6 +507,7 @@ img {
   font-size: 1.05rem;
 }
 
+/* Intro line */
 .about__intro {
   color: var(--color-text-primary);
   font-size: 1.22rem;
@@ -497,6 +522,7 @@ img {
   font-weight: 800;
 }
 
+/* Inline badge for TypeScript */
 .about__accent {
   color: var(--color-primary-light);
   font-weight: 650;
@@ -507,6 +533,7 @@ img {
   box-shadow: 0 0 16px rgba(139, 92, 246, 0.12);
 }
 
+/* Signature line */
 .about__signature {
   margin-top: 1.2rem;
   padding-top: 1.1rem;
@@ -520,9 +547,9 @@ img {
 ========================= */
 
 .about__panel--mini {
-  flex: 1;
-  min-width: 320px;
-  display: flex;
+  flex: 1; /* slightly smaller */
+  min-width: 320px; /* prevents it becoming too skinny */
+  display: flex; /* helps content feel anchored */
 }
 
 .about__panel--mini .about__content {
@@ -530,6 +557,7 @@ img {
   width: 100%;
 }
 
+/* highlights list */
 .about__highlights {
   list-style: none;
   padding: 0;
@@ -541,7 +569,7 @@ img {
   display: flex;
   align-items: flex-start;
 
-  padding: 0.6rem 0.2rem 0.6rem 1.6rem;
+  padding: 0.6rem 0.2rem 0.6rem 1.6rem; /* left space for the arrow */
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
   color: var(--color-text-secondary);
@@ -553,6 +581,7 @@ img {
   border-bottom: none;
 }
 
+/* Arrow is positioned so it never messes with wrapping */
 .about__highlights li::before {
   content: "▹";
   position: absolute;
@@ -563,12 +592,17 @@ img {
   text-shadow: 0 0 10px var(--color-glow);
 }
 
+/* Fixed label column */
 .about__highlights strong {
-  flex: 0 0 85px;
+  flex: 0 0 85px; /* tweak 85–110px to taste */
   white-space: nowrap;
   color: var(--color-text-primary);
   font-weight: 650;
 }
+
+/* =========================
+   MOBILE TWEAKS
+========================= */
 
 @media (max-width: 950px) {
   .about__panel--mini {
@@ -645,7 +679,7 @@ section,
 /* Optional: give each section a subtle depth background */
 section {
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* keeps parallax layers clean if we add them */
 }
 
 /* =========================
@@ -661,9 +695,9 @@ section {
 
 /* Center the last card ONLY when there’s an odd number of cards (e.g. 3) */
 .projects-grid > .project-card:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
-  justify-self: center;
-  width: min(520px, 100%);
+  grid-column: 1 / -1; /* span full row */
+  justify-self: center; /* center it */
+  width: min(520px, 100%); /* same visual size as others */
 }
 
 /* Mobile: 1 per row, everything full width */
@@ -676,24 +710,27 @@ section {
   .project-card {
     width: 100%;
     max-width: none;
-    justify-self: stretch;
+    justify-self: stretch; /* force full width inside grid */
   }
 
   .project-body {
-    padding: 1.4rem;
+    padding: 1.4rem; /* same as about__content mobile */
   }
 
   .projects-grid > .project-card:last-child:nth-child(odd) {
-    grid-column: auto;
-    justify-self: stretch;
+    grid-column: auto; /* reset */
+    justify-self: stretch; /* full width */
     width: 100%;
   }
 }
 
 /* ===== Card ===== */
 .project-card {
+  /* background stays */
   background: linear-gradient(160deg, rgba(22, 22, 34, 0.98), rgba(15, 15, 23, 0.98));
+
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -705,6 +742,7 @@ section {
 
 /* =========================
    PROJECT-CARD as universal card
+   (skills panels + contact card)
 ========================= */
 
 .project-card.panel,
@@ -713,6 +751,7 @@ section {
   flex-direction: column;
 }
 
+/* keep header + body above the ::before overlay */
 .project-card.panel .panel__head,
 .project-card.panel .panel__body,
 .project-card.contact-card .contact-card__head,
@@ -721,6 +760,7 @@ section {
   z-index: 1;
 }
 
+/* If you want SAME padding rhythm as project cards */
 .project-card.panel .panel__head,
 .project-card.contact-card .contact-card__head {
   padding: 1.25rem 1.5rem;
@@ -1193,11 +1233,14 @@ section {
 
 /* =========================
    CONTACT (CLEAN VERSION)
+   Desktop: form | divider | links
+   Mobile: stack + horizontal divider + links in a row
 ========================= */
 
+/* ---- Card body layout ---- */
 .contact-card__body {
   display: grid;
-  grid-template-columns: 1fr 1px 260px;
+  grid-template-columns: 1fr 1px 260px; /* form | divider | links */
   gap: 2rem;
   align-items: stretch;
 }
@@ -1208,9 +1251,10 @@ section {
   width: 100%;
   max-width: 100%;
   display: grid;
-  gap: 1rem;
+  gap: 1rem; /* spacing between fields + button */
 }
 
+/* each field controls label->input spacing */
 .contact-form .field {
   display: grid;
   gap: 0.45rem;
@@ -1223,6 +1267,7 @@ section {
   color: rgba(241, 245, 249, 0.9);
 }
 
+/* input wrapper */
 .field__control {
   display: grid;
   grid-template-columns: 18px 1fr;
@@ -1281,8 +1326,8 @@ section {
 
 /* ---- SEND BUTTON ---- */
 .contact-form .contact-btn {
-  margin: 0;
-  justify-self: start;
+  margin: 0;              /* prevent any inherited spacing */
+  justify-self: start;    /* keep left aligned */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1322,13 +1367,14 @@ section {
   opacity: 0.95;
 }
 
-/* ---- DIVIDER ---- */
+/* ---- DIVIDER (purple gradient) ---- */
 .contact-divider {
   grid-column: 2;
   width: 1px;
   height: 100%;
   margin: 0;
 
+  /* override the border-gradient classes in HTML */
   border: 0 !important;
 
   background: linear-gradient(
@@ -1348,8 +1394,8 @@ section {
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* vertical center */
+  align-items: center;     /* horizontal center */
   gap: 0.9rem;
 }
 
@@ -1409,16 +1455,18 @@ section {
     grid-column: auto;
   }
 
+  /* horizontal purple divider */
   .contact-divider {
     width: 100%;
     height: 1px;
   }
 
+  /* make links sit next to each other */
   .contact-links {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: wrap;  /* wrap if needed on very small phones */
     gap: 0.75rem;
   }
 
@@ -1427,16 +1475,16 @@ section {
     white-space: nowrap;
   }
 
+  /* send button full width on mobile */
   .contact-form .contact-btn {
     width: 100%;
     justify-self: stretch;
   }
 
-  .contact-form label {
+  .contact-form label{
     text-align: left;
   }
 }
-
 /* =========================
    FOOTER
 ========================= */
@@ -1447,16 +1495,12 @@ section {
   color: var(--color-text-secondary);
 }
 
-/* =========================
-   DESTROY MODE UI
-========================= */
-
+/* ===== Destroy Mode UI ===== */
 .destroy-toggle {
   position: fixed;
   right: 16px;
   bottom: 16px;
   z-index: 9999;
-
   padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid rgba(139, 92, 246, 0.35);
@@ -1464,78 +1508,64 @@ section {
   color: var(--color-text-primary);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-
   cursor: pointer;
-  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.2s ease;
-
-  /* hidden by default until sentinel shows it */
-  opacity: 0;
-  transform: translateY(12px);
-  pointer-events: none;
+  transition: transform 0.15s ease, border-color 0.2s ease;
 }
-
-.destroy-toggle.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
 .destroy-toggle:hover { transform: translateY(-1px); }
 .destroy-toggle.is-on { border-color: rgba(139, 92, 246, 0.8); }
 
-/* The overlay layer */
+/* The overlay layer (doesn't block clicks unless destroy is on) */
 .destroy-layer {
   position: fixed;
   inset: 0;
   z-index: 9998;
-  pointer-events: none;
+  pointer-events: none; /* will be enabled in JS when mode is on */
 }
 
-/* Ship */
-.ship {
-  position: absolute;
-  width: 72px;
-  height: 72px;
+/* Simple ship (you can replace with SVG later) */
+.ship{
+  position:absolute;
+  width:72px;
+  height:72px;
   transform: translate(-50%, -50%) rotate(0deg);
   background: url("./img/space.png") center/contain no-repeat;
-  pointer-events: none;
+  pointer-events:none;
   transition: transform 0.08s linear;
 }
 
 /* Thruster flame */
-.ship::after {
-  content: "";
-  position: absolute;
-  left: -36px;
-  top: 50%;
-  width: 46px;
-  height: 46px;
+.ship::after{
+  content:"";
+  position:absolute;
+  left:-36px;              /* behind ship (assumes facing right) */
+  top:50%;
+  width:46px;
+  height:46px;
   transform: translateY(-50%);
   background: url("./img/fire.png") center/contain no-repeat;
-  opacity: 0;
-  pointer-events: none;
-  filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.35));
+  opacity:0;
+  pointer-events:none;
+  filter: drop-shadow(0 0 16px rgba(139,92,246,.35));
 }
 
-.ship.is-thrusting::after {
-  opacity: 1;
+.ship.is-thrusting::after{
+  opacity:1;
   animation: flameFlicker 120ms infinite alternate;
 }
 
-@keyframes flameFlicker {
-  from { transform: translateY(-50%) scale(0.9); }
-  to   { transform: translateY(-50%) scale(1.05); }
+@keyframes flameFlicker{
+  from{ transform: translateY(-50%) scale(.9); }
+  to  { transform: translateY(-50%) scale(1.05); }
 }
 
-/* Laser (if you still use it anywhere) */
+/* Laser */
 .laser {
   position: absolute;
   pointer-events: none;
   height: 3px;
   transform-origin: 0 50%;
   border-radius: 999px;
-  background: linear-gradient(
-    to right,
+  background: linear-gradient(to right,
     rgba(139, 92, 246, 0),
     rgba(139, 92, 246, 1),
     rgba(167, 139, 250, 1),
@@ -1544,156 +1574,176 @@ section {
   box-shadow: 0 0 18px rgba(139, 92, 246, 0.8);
   animation: laserFade 180ms ease-out forwards;
 }
-
 @keyframes laserFade {
   from { opacity: 1; }
-  to   { opacity: 0; }
+  to { opacity: 0; }
 }
 
-/* Screen vibe */
+/* Hit effects on elements */
+.destroyable {
+  /* optional hint */
+  outline: 0px solid transparent;
+}
+
+.destroyed {
+  pointer-events: none !important;
+  animation: destroyedPop 520ms ease-out forwards;
+  filter: saturate(1.2);
+}
+
+@keyframes destroyedPop {
+  0%   { transform: translate(0,0) rotate(0); opacity: 1; }
+  20%  { transform: translate(2px,-2px) rotate(-1deg); }
+  40%  { transform: translate(-2px,2px) rotate(2deg); }
+  70%  { transform: translate(0,18px) rotate(7deg); opacity: 0.65; }
+  100% { transform: translate(0,42px) rotate(12deg); opacity: 0; }
+}
+
+/* Screen vibe (optional) */
 body.destroy-mode-on {
-  cursor: none;
+  cursor: crosshair;
 }
 
-/* Sentinel tiny */
-#destroy-sentinel {
+/* Sentinel can be tiny */
+#destroy-sentinel{
   height: 1px;
 }
 
+/* Button hidden by default, only appears at bottom */
+.destroy-toggle{
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease, border-color .2s ease;
+}
+.destroy-toggle.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 /* Flash + shake */
-.page-flash {
+.page-flash{
   position: fixed;
   inset: 0;
   z-index: 10000;
   pointer-events: none;
   opacity: 0;
-  background: rgba(241, 245, 249, 0.95);
+  background: rgba(241,245,249,0.95);
   mix-blend-mode: screen;
 }
-
-.page-flash.is-on {
+.page-flash.is-on{
   animation: flashBlink 480ms ease-in-out;
 }
-
-@keyframes flashBlink {
-  0% { opacity: 0; }
-  20% { opacity: 1; }
-  40% { opacity: 0; }
-  60% { opacity: 0.85; }
-  100% { opacity: 0; }
+@keyframes flashBlink{
+  0%{opacity:0}
+  20%{opacity:1}
+  40%{opacity:0}
+  60%{opacity:.85}
+  100%{opacity:0}
 }
 
-body.page-shake {
+body.page-shake{
   animation: pageShake 600ms ease-in-out;
 }
-
-@keyframes pageShake {
-  0% { transform: translate(0, 0); }
-  10% { transform: translate(-6px, 2px); }
-  20% { transform: translate(6px, -2px); }
-  30% { transform: translate(-5px, -1px); }
-  40% { transform: translate(5px, 2px); }
-  60% { transform: translate(-3px, 1px); }
-  80% { transform: translate(3px, -1px); }
-  100% { transform: translate(0, 0); }
+@keyframes pageShake{
+  0%{transform:translate(0,0)}
+  10%{transform:translate(-6px,2px)}
+  20%{transform:translate(6px,-2px)}
+  30%{transform:translate(-5px,-1px)}
+  40%{transform:translate(5px,2px)}
+  60%{transform:translate(-3px,1px)}
+  80%{transform:translate(3px,-1px)}
+  100%{transform:translate(0,0)}
 }
 
 /* Intro overlay */
-.destroy-intro {
+.destroy-intro{
   position: fixed;
   inset: 0;
   z-index: 10001;
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0,0,0,0.55);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity .2s ease;
 }
-
-.destroy-intro.is-open {
+.destroy-intro.is-open{
   opacity: 1;
   pointer-events: auto;
 }
-
-.destroy-intro__panel {
+.destroy-intro__panel{
   width: min(520px, 92vw);
   border-radius: 18px;
   padding: 18px;
   background: rgba(15, 15, 23, 0.82);
   border: 1px solid rgba(139, 92, 246, 0.35);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 30px 80px rgba(0,0,0,.55);
 }
-
-.destroy-intro__title { margin: 0 0 8px; }
-
-.destroy-intro__text {
+.destroy-intro__title{
+  margin: 0 0 8px;
+}
+.destroy-intro__text{
   margin: 0 0 14px;
   color: var(--color-text-secondary);
 }
-
-.destroy-intro__actions {
+.destroy-intro__actions{
   display: flex;
   gap: 10px;
   justify-content: flex-end;
 }
 
+/* Buttons inside intro */
 .destroy-start,
-.destroy-cancel {
+.destroy-cancel{
   padding: 10px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
   color: var(--color-text-primary);
   cursor: pointer;
 }
-
-.destroy-start {
+.destroy-start{
   border-color: rgba(139, 92, 246, 0.5);
   background: rgba(139, 92, 246, 0.18);
 }
+.destroy-start:hover{ transform: translateY(-1px); }
+.destroy-cancel:hover{ transform: translateY(-1px); }
 
-.destroy-start:hover { transform: translateY(-1px); }
-.destroy-cancel:hover { transform: translateY(-1px); }
+body.destroy-mode-on{ cursor:none; }
 
-/* Crosshair (if you ever re-enable mouse later) */
-.destroy-crosshair {
-  position: fixed;
-  width: 22px;
-  height: 22px;
-  border: 2px solid rgba(167, 139, 250, 0.9);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 10002;
-  box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
+.destroy-crosshair{
+  position:fixed;
+  width:22px;
+  height:22px;
+  border:2px solid rgba(167,139,250,.9);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:10002;
+  box-shadow:0 0 18px rgba(139,92,246,.25);
 }
 
-.destroy-crosshair::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  transform: translate(-50%, -50%);
-  background: rgba(167, 139, 250, 0.9);
-  border-radius: 50%;
+.destroy-crosshair::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:6px;
+  height:6px;
+  transform:translate(-50%,-50%);
+  background:rgba(167,139,250,.9);
+  border-radius:50%;
 }
 
-/* =========================
-   DAMAGE FEEDBACK (blur + cracks)
-   NOTE: we use ::after for cracks on purpose.
-   Your premium cards already use ::before for borders,
-   so ::before cracks would break those borders.
-========================= */
-
+/* Visible damage feedback */
 .destroy-mode-on .destroyable {
-  --damage: 0;
+  --damage: 0; /* 0 → 1 */
   position: relative;
   transition: filter 160ms ease, transform 160ms ease;
   transform-origin: center;
@@ -1704,7 +1754,7 @@ body.page-shake {
     brightness(calc(1 - var(--damage) * 0.18));
 }
 
-/* Cracks overlay (takes over ::after during destroy mode = better readability) */
+/* “Cracks” overlay (no extra image needed) */
 .destroy-mode-on .destroyable::after {
   content: "";
   position: absolute;
@@ -1717,18 +1767,7 @@ body.page-shake {
     linear-gradient(165deg, transparent 58%, rgba(255,255,255,0.16) 59%, transparent 62%);
   mix-blend-mode: screen;
   filter: blur(0.2px);
-  z-index: 3;
 }
-
-/* Your JS hides destroyed elements with visibility:hidden.
-   So keep .destroyed simple and compatible. */
-.destroyed {
-  pointer-events: none !important;
-}
-
-/* =========================
-   HUD + TOAST
-========================= */
 
 .destroy-hud {
   position: fixed;
@@ -1741,7 +1780,6 @@ body.page-shake {
   background: rgba(15, 15, 23, 0.55);
   border: 1px solid rgba(139, 92, 246, 0.25);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   font: 600 13px/1.1 system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   letter-spacing: 0.2px;
   display: none;
@@ -1749,17 +1787,14 @@ body.page-shake {
   align-items: center;
   color: #f1f5f9;
 }
-
 .destroy-hud b { font-weight: 800; }
-
 .destroy-hud .pill {
   padding: 6px 10px;
   border-radius: 999px;
   background: rgba(139, 92, 246, 0.12);
   border: 1px solid rgba(139, 92, 246, 0.18);
 }
-
-.destroy-toast {
+.destroy-toast{
   position: fixed;
   top: 62px;
   left: 50%;
@@ -1770,144 +1805,6 @@ body.page-shake {
   background: rgba(15, 15, 23, 0.75);
   border: 1px solid rgba(167, 139, 250, 0.28);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   display: none;
   color: #f1f5f9;
-}
-.hero { position: relative; }
-
-.hero-hit-bg{
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-}
-
-.hero-hit-divider{
-  position:absolute;
-  left:0; right:0; bottom:0;
-  height:1px;
-  z-index:1;
-  pointer-events:none;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(139, 92, 246, 0.15) 25%,
-    rgba(139, 92, 246, 0.5) 50%,
-    rgba(139, 92, 246, 0.15) 75%,
-    transparent 100%
-  );
-}
-
-.destroy-mode-on .destroyable.was-hit {
-  outline: 2px solid rgba(167, 139, 250, 0.7);
-  outline-offset: 2px;
-}
-
-.page-flash { z-index: 10010; }
-    .destroy-layer { z-index: 10020; }
-
-    /* =========================
-   DESTROY MODE: keep ship ABOVE flash (already good)
-========================= */
-.page-flash { z-index: 10010; }
-.destroy-layer { z-index: 10020; }
-
-/* OPTIONAL: stop flash blend affecting anything weird */
-.destroy-mode-on .page-flash {
-  mix-blend-mode: normal;
-}
-
-/* =========================
-   DESTROY MODE: "border destroyed" classes
-   (we remove borders WITHOUT hiding whole sections/cards)
-========================= */
-
-/* Sections that use .border-gradient (border-image) */
-.destroy-mode-on .border-destroyed.border-gradient {
-  border-image: none !important;
-  border-color: transparent !important;
-}
-
-/* Your divider gradient line at bottom of hero */
-.destroy-mode-on .hero-hit-divider.border-destroyed {
-  background: transparent !important;
-}
-
-/* Premium card border layer is ::before on these */
-.destroy-mode-on .card-border-destroyed::before {
-  opacity: 0 !important;
-}
-
-/* Premium glow layer is ::after — in destroy mode you override ::after for cracks,
-   but for safety we can also reduce it when border is destroyed */
-.destroy-mode-on .card-border-destroyed::after {
-  opacity: 0 !important;
-}
-
-/* =========================
-   PORTFOLIO THANK YOU POPUP
-========================= */
-
-.portfolio-thanks {
-  position: fixed;
-  inset: 0;
-  z-index: 10050;
-  display: grid;
-  place-items: center;
-
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
-.portfolio-thanks.is-open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.portfolio-thanks__card {
-  width: min(420px, 90%);
-  padding: 2rem;
-  border-radius: 18px;
-
-  background: rgba(15, 15, 23, 0.85);
-  border: 1px solid rgba(139, 92, 246, 0.45);
-
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.6),
-    0 0 25px rgba(139, 92, 246, 0.25);
-
-  text-align: center;
-}
-
-.portfolio-thanks__card h3 {
-  margin-bottom: 1rem;
-  color: var(--color-primary-light);
-}
-
-.portfolio-thanks__card p {
-  color: var(--color-text-secondary);
-  margin-bottom: 1.5rem;
-}
-
-.portfolio-thanks__close {
-  padding: 0.6rem 1.2rem;
-  border-radius: 12px;
-
-  border: 1px solid rgba(139, 92, 246, 0.5);
-  background: rgba(139, 92, 246, 0.15);
-  color: var(--color-text-primary);
-
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.portfolio-thanks__close:hover {
-  transform: translateY(-2px);
-  background: rgba(139, 92, 246, 0.25);
 }
