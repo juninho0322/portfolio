@@ -17,6 +17,15 @@
 
     if (!toggleBtn || !layer || !ship) return;
 
+    const isTouchDevice =
+        "ontouchstart" in window || navigator.maxTouchPoints > 0 || window.matchMedia("(pointer: coarse)").matches;
+
+    if (isTouchDevice) {
+        // Hide button + stop script from doing anything on mobile
+        toggleBtn?.remove(); // or toggleBtn.style.display = "none";
+        return;
+    }
+
     // ----------------------------
     // CONFIG
     // ----------------------------
@@ -535,29 +544,6 @@
         sections.forEach((sec) => sectionObserver.observe(sec));
         positionShip(shipX);
 
-        let touchActive = false;
-
-        function onTouchStart(e) {
-            if (!isOn) return;
-            touchActive = true;
-            const t = e.touches[0];
-            positionShip(t.clientX);
-            fireBullet(); // tap shoots
-        }
-
-        function onTouchMove(e) {
-            if (!isOn || !touchActive) return;
-            const t = e.touches[0];
-            positionShip(t.clientX); // drag moves ship
-        }
-
-        function onTouchEnd() {
-            touchActive = false;
-        }
-
-        window.addEventListener("touchstart", onTouchStart, { passive: true });
-        window.addEventListener("touchmove", onTouchMove, { passive: true });
-        window.addEventListener("touchend", onTouchEnd);
     }
 
     function stopMode() {
