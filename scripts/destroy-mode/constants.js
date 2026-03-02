@@ -139,9 +139,9 @@ export const ITEM_SELECTOR = [
 export const SECTION_SELECTOR = "main section[id], .hero";
 
 export const SCROLL_BY_KEYS = {
-  maxPxPerFrame: 12,
-  accel: 0.2,
-  friction: 0.18,
+  maxPxPerFrame: 22,
+  accel: 0.32,
+  friction: 0.24,
 };
 
 export const Z_INDEX = {

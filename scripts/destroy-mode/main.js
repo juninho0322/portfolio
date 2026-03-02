@@ -72,7 +72,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     let combo = 0;
     let lastHitAt = 0;
     let isPaused = false;
-    let activeWeaponId = "pulse";
+    let activeWeaponId = "rail";
     let driftFx = null;
     let driftTimer = null;
     let totalDestroyables = 1;
@@ -566,7 +566,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         combo = 0;
         lastHitAt = 0;
         isPaused = false;
-        activeWeaponId = "pulse";
+        activeWeaponId = "rail";
         startAt = performance.now();
         hud.style.display = "flex";
         updateHUD();
@@ -932,8 +932,9 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
                 openThanksPopup();
             }
 
-            // ✅ end mode and go to top
-            stopMode();
+            // ✅ hard-stop destroy mode as soon as header is destroyed
+            closeIntro();
+            if (isOn) stopMode();
             window.scrollTo({ top: 0, behavior: "smooth" });
             return;
         }
@@ -1051,6 +1052,15 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
 
         if (!stack?.length) return null;
 
+        // Header boss takes priority when the shot is inside header bounds.
+        const headerBoss = document.querySelector(".site-header.destroyable");
+        if (isAliveDestroyable(headerBoss)) {
+            const r = headerBoss.getBoundingClientRect();
+            if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+                return headerBoss;
+            }
+        }
+
         for (const raw of stack) {
             if (matchesExcluded(raw)) continue;
 
@@ -1060,7 +1070,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
                 return item;
             }
 
-            // 2) allow header as boss target
+            // 2) allow header as fallback target
             const header = raw.closest?.(".site-header.destroyable");
             if (isAliveDestroyable(header)) {
                 return header;
