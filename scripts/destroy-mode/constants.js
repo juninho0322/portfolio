@@ -1,5 +1,5 @@
 export const FIRE_KEY = "f";
-export const SHIP_SPEED = 10;
+export const SHIP_SPEED = 22;
 export const COMBO_WINDOW_MS = 1400;
 
 export const BULLET = {
@@ -60,11 +60,11 @@ export const IMPACT = {
 export const SCROLL = { durationMs: 900 };
 
 export const DRIFT = {
-  intervalMs: 36,
-  baseDurationMin: 520,
-  baseDurationMax: 860,
+  intervalMs: 18,
+  baseDurationMin: 300,
+  baseDurationMax: 520,
   baseLengthMin: 12,
-  baseLengthMax: 30,
+  baseLengthMax: 42,
 };
 
 export const EXCLUDE_SELECTORS = [

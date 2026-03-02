@@ -370,7 +370,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
             intensity += scrollBoost;
             intensity += getDestructionProgress() * 3.4;
 
-            const spawnCount = Math.min(18, 3 + Math.floor(intensity) + (Math.random() > 0.28 ? 2 : 1));
+            const spawnCount = Math.min(42, 7 + Math.floor(intensity * 1.7) + (Math.random() > 0.12 ? 4 : 2));
             for (let i = 0; i < spawnCount; i++) {
                 spawnDriftParticle(intensity);
             }
