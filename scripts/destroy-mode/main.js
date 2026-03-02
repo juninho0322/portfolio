@@ -77,6 +77,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     let driftTimer = null;
     let totalDestroyables = 1;
     let destroyedCount = 0;
+    let lastImpactAt = 0;
 
     // ✅ thank you popup state
     let thanksShown = false;
@@ -746,7 +747,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     }
 
     function punchImpactArea(x, y) {
-        const radius = 260;
+        const radius = 180;
         const candidates = document.elementsFromPoint(x, y);
         const hitRoot = candidates.find((el) => el.matches?.(".destroyable"))?.closest?.(".destroyable");
         if (!hitRoot) return;
@@ -769,7 +770,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
             return Math.hypot(cx - x, cy - y) <= radius;
         });
 
-        near.slice(0, 7).forEach((el, i) => {
+        near.slice(0, 3).forEach((el, i) => {
             el.animate(
                 [
                     { transform: "translate(0,0)" },
@@ -782,30 +783,45 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     }
 
     function spawnImpact(x, y, opts = {}) {
+        const now = performance.now();
         const crit = !!opts.crit;
         const weaponType = opts.weaponType || "pulse";
         const comboLevel = opts.comboLevel || 1;
-        const strength = 1 + Math.min(1.4, comboLevel * 0.12) + (crit ? 0.75 : 0);
-        const shardAmount = Math.round(10 + comboLevel * 2 + (crit ? 10 : 0));
+        const strength = 1 + Math.min(0.8, comboLevel * 0.06) + (crit ? 0.35 : 0);
+        const shardAmount = clamp(Math.round(4 + comboLevel + (crit ? 4 : 0)), 4, 12);
+
+        // If impacts are happening too fast, keep only a very light effect path.
+        if (now - lastImpactAt < 28) {
+            spawnImpactSingle(x, y, 0.85);
+            return;
+        }
+        lastImpactAt = now;
 
         // center
-        spawnImpactSingle(x, y, 1.15 * strength);
-        spawnShockwave(x, y, strength);
+        spawnImpactSingle(x, y, 1.05 * strength);
+        if (crit || Math.random() > 0.62) {
+            spawnShockwave(x, y, strength);
+        }
         spawnFireShards(x, y, shardAmount, strength);
-        if (Math.random() > 0.35 || crit) spawnBurnDecal(x, y, 0.9 + Math.random() * 0.6);
-        punchImpactArea(x, y);
+        if (crit || Math.random() > 0.9) {
+            spawnBurnDecal(x, y, 0.7 + Math.random() * 0.35);
+        }
+        if (crit || Math.random() > 0.55) {
+            punchImpactArea(x, y);
+        }
 
-        // aggressive burst cloud
-        for (let i = 0; i < IMPACT.burstCount - 1; i++) {
+        // lighter burst cloud
+        const burstExtra = clamp(2 + Math.floor(comboLevel / 2) + (crit ? 3 : 0), 2, IMPACT.burstCount);
+        for (let i = 0; i < burstExtra; i++) {
             const dx = (Math.random() * 2 - 1) * IMPACT.burstSpreadPx;
             const dy = (Math.random() * 2 - 1) * IMPACT.burstSpreadPx;
-            const s = 0.45 + Math.random() * 1.15;
+            const s = 0.35 + Math.random() * 0.65;
             spawnImpactSingle(x + dx, y + dy, s * strength);
         }
 
         // weapon flavor boost
         if (weaponType === "scatter") {
-            spawnFireShards(x, y, 12 + Math.round(Math.random() * 8), 0.7 + Math.random() * 0.5);
+            spawnFireShards(x, y, 4 + Math.round(Math.random() * 3), 0.6 + Math.random() * 0.3);
         }
         if (crit) {
             showToast("⚡ CRITICAL BURST");
@@ -823,7 +839,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
             return Math.hypot(cx - x, cy - y) <= radius;
         });
 
-        nearby.slice(0, 5).forEach((el) => {
+        nearby.slice(0, 3).forEach((el) => {
             const r = el.getBoundingClientRect();
             const cx = r.left + r.width / 2;
             const cy = r.top + r.height / 2;

@@ -51,10 +51,10 @@ export const WEAPONS = {
 
 export const IMPACT = {
   imgUrl: "./img/fire.png",
-  lifeMs: 640,
-  size: 300,
-  burstCount: 48,
-  burstSpreadPx: 145,
+  lifeMs: 420,
+  size: 180,
+  burstCount: 10,
+  burstSpreadPx: 90,
 };
 
 export const SCROLL = { durationMs: 900 };
