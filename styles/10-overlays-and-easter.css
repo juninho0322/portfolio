@@ -83,3 +83,9 @@
   width: 500px;
   text-align: center;
 }
+
+@media (max-width: 950px) {
+  .easter-hint {
+    display: none !important;
+  }
+}

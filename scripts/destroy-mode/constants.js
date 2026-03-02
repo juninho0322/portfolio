@@ -4,7 +4,7 @@ export const COMBO_WINDOW_MS = 1400;
 
 export const BULLET = {
   speedPxPerFrame: 18,
-  maxLifeMs: 1800,
+  maxLifeMs: 1000,
   thickness: 4,
   length: 18,
   cooldownMs: 90,
@@ -21,7 +21,7 @@ export const WEAPONS = {
     pierce: 0,
     gradient:
       "linear-gradient(to bottom, rgba(139,92,246,0), rgba(139,92,246,1), rgba(167,139,250,1), rgba(139,92,246,0))",
-    glow: "0 0 18px rgba(139,92,246,0.85)",
+    glow: "0 0 10px rgba(139,92,246,0.65)",
   },
   scatter: {
     label: "Scatter",
@@ -33,7 +33,7 @@ export const WEAPONS = {
     pierce: 0,
     gradient:
       "linear-gradient(to bottom, rgba(236,72,153,0), rgba(236,72,153,1), rgba(244,114,182,1), rgba(236,72,153,0))",
-    glow: "0 0 18px rgba(236,72,153,0.85)",
+    glow: "0 0 10px rgba(236,72,153,0.65)",
   },
   rail: {
     label: "Rail",
@@ -45,7 +45,7 @@ export const WEAPONS = {
     pierce: 1,
     gradient:
       "linear-gradient(to bottom, rgba(56,189,248,0), rgba(56,189,248,1), rgba(125,211,252,1), rgba(56,189,248,0))",
-    glow: "0 0 22px rgba(56,189,248,0.9)",
+    glow: "0 0 12px rgba(56,189,248,0.7)",
   },
 };
 
@@ -60,11 +60,11 @@ export const IMPACT = {
 export const SCROLL = { durationMs: 900 };
 
 export const DRIFT = {
-  intervalMs: 18,
-  baseDurationMin: 300,
-  baseDurationMax: 520,
-  baseLengthMin: 12,
-  baseLengthMax: 42,
+  intervalMs: 28,
+  baseDurationMin: 360,
+  baseDurationMax: 640,
+  baseLengthMin: 8,
+  baseLengthMax: 24,
 };
 
 export const EXCLUDE_SELECTORS = [
@@ -148,4 +148,17 @@ export const Z_INDEX = {
   impact: 10003,
   impactFront: 10004,
   bullet: 10001,
+};
+
+export const PERFORMANCE = {
+  maxActiveBullets: 8,
+  lowCostBulletThreshold: 4,
+  raycastStepPx: 10,
+  raycastStepPxBusy: 16,
+  maxImpactSprites: 12,
+  maxShards: 20,
+  maxDriftParticles: 145,
+  shakeCooldownMs: 220,
+  flashCooldownMs: 220,
+  impactCooldownMs: 40,
 };

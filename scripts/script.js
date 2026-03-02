@@ -119,6 +119,14 @@ function runEasterHint() {
   const hint = document.querySelector(".easter-hint");
   if (!hint) return;
 
+  const isMobile =
+    window.matchMedia("(max-width: 950px)").matches ||
+    window.matchMedia("(pointer: coarse)").matches;
+  if (isMobile) {
+    hint.style.display = "none";
+    return;
+  }
+
   // reset (in case of hot reload / cache)
   hint.style.opacity = "0";
   hint.style.transition = "none";
@@ -150,4 +158,3 @@ if (document.readyState === "loading") {
 } else {
   runEasterHint();
 }
-

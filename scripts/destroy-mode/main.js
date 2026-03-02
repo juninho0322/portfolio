@@ -10,6 +10,7 @@ import {
     SCROLL,
     SCROLL_BY_KEYS,
     SECTION_SELECTOR,
+    PERFORMANCE,
     SHIP_SPEED,
     WEAPONS,
     Z_INDEX,
@@ -78,6 +79,12 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     let totalDestroyables = 1;
     let destroyedCount = 0;
     let lastImpactAt = 0;
+    let lastShakeAt = 0;
+    let lastFlashAt = 0;
+    let activeImpactSprites = 0;
+    let activeShards = 0;
+    let activeDriftParticles = 0;
+    let lowFxMode = false;
 
     // ✅ thank you popup state
     let thanksShown = false;
@@ -95,6 +102,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     // current section
     let activeSectionIndex = Math.max(0, sections.length - 1);
     let activeSection = sections[activeSectionIndex] || null;
+    let perfFrame = 0;
 
     // ----------------------------
     // THANK YOU POPUP HELPERS
@@ -103,12 +111,20 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         if (!thanksPopup) return;
         thanksPopup.classList.add("is-open");
         thanksPopup.setAttribute("aria-hidden", "false");
+        toggleBtn.disabled = true;
+        toggleBtn.blur();
+        thanksClose?.focus();
     }
 
     function closeThanksPopup() {
         if (!thanksPopup) return;
         thanksPopup.classList.remove("is-open");
         thanksPopup.setAttribute("aria-hidden", "true");
+        toggleBtn.disabled = false;
+    }
+
+    function isThanksOpen() {
+        return !!thanksPopup?.classList.contains("is-open");
     }
 
     // close button
@@ -138,6 +154,15 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         document.querySelectorAll(".destroy-ui, .hero-hit-bg, .hero-hit-divider").forEach((el) => {
             el.style.pointerEvents = value;
         });
+    }
+
+    function isHeaderDestroyed() {
+        const header = document.querySelector(".site-header");
+        if (!header) return false;
+        if (header.classList.contains("destroyed")) return true;
+        if (header.style.visibility === "hidden") return true;
+        if (header.dataset.kind === "header" && Number(header.dataset.hp || HP.header) <= 0) return true;
+        return false;
     }
 
 
@@ -207,6 +232,10 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     }
 
     function shakeOnDestroy() {
+        const now = performance.now();
+        if (now - lastShakeAt < PERFORMANCE.shakeCooldownMs) return;
+        lastShakeAt = now;
+
         // Shake only page content (never the ship layer).
         const targets = [document.querySelector(".site-header"), document.querySelector("main")]
             .filter(Boolean);
@@ -226,6 +255,17 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
                 { duration: 600, easing: "ease-in-out" }
             );
         });
+    }
+
+    function triggerFlash() {
+        if (!flash) return;
+        const now = performance.now();
+        if (now - lastFlashAt < PERFORMANCE.flashCooldownMs) return;
+        lastFlashAt = now;
+
+        flash.classList.remove("is-on");
+        void flash.offsetWidth;
+        flash.classList.add("is-on");
     }
 
     function ensureHUD() {
@@ -305,9 +345,11 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     }
 
     function spawnDriftParticle(intensity = 1) {
+        if (activeDriftParticles >= PERFORMANCE.maxDriftParticles) return;
         const fx = ensureDriftFxLayer();
         const p = document.createElement("span");
         p.className = "destroy-particle";
+        activeDriftParticles += 1;
 
         const startX = Math.random() * window.innerWidth;
         const len = DRIFT.baseLengthMin + Math.random() * (DRIFT.baseLengthMax - DRIFT.baseLengthMin);
@@ -348,7 +390,10 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
             { duration: dur, easing: "linear", fill: "forwards" }
         );
 
-        window.setTimeout(() => p.remove(), dur + 30);
+        window.setTimeout(() => {
+            p.remove();
+            activeDriftParticles = Math.max(0, activeDriftParticles - 1);
+        }, dur + 30);
     }
 
     function startDriftParticles() {
@@ -370,7 +415,9 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
             intensity += scrollBoost;
             intensity += getDestructionProgress() * 3.4;
 
-            const spawnCount = Math.min(42, 7 + Math.floor(intensity * 1.7) + (Math.random() > 0.12 ? 4 : 2));
+            const baseCount = 1 + Math.floor(intensity * 0.95);
+            const cap = lowFxMode || firing ? 6 : 10;
+            const spawnCount = Math.min(cap, baseCount + (Math.random() > 0.6 ? 1 : 0));
             for (let i = 0; i < spawnCount; i++) {
                 spawnDriftParticle(intensity);
             }
@@ -385,6 +432,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         if (driftFx) {
             driftFx.textContent = "";
         }
+        activeDriftParticles = 0;
     }
 
     // ----------------------------
@@ -404,11 +452,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     }
 
     async function playIntroSequence() {
-        if (flash) {
-            flash.classList.remove("is-on");
-            void flash.offsetWidth;
-            flash.classList.add("is-on");
-        }
+        triggerFlash();
 
         shakeOnDestroy();
         await wait(650);
@@ -574,6 +618,13 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         // ✅ reset thank you popup state each run
         thanksShown = false;
         closeThanksPopup();
+        lastImpactAt = 0;
+        lastShakeAt = 0;
+        lastFlashAt = 0;
+        activeImpactSprites = 0;
+        activeShards = 0;
+        activeDriftParticles = 0;
+        lowFxMode = false;
 
         isOn = true;
         firing = false;
@@ -635,6 +686,9 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     // IMPACT FX (20 bursts)
     // ----------------------------
     function spawnImpactSingle(x, y, scaleMul = 1) {
+        if (activeImpactSprites >= PERFORMANCE.maxImpactSprites) return;
+        activeImpactSprites += 1;
+
         const fx = document.createElement("div");
         fx.style.position = "fixed";
         fx.style.left = x + "px";
@@ -661,7 +715,10 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
             { duration: IMPACT.lifeMs, easing: "cubic-bezier(.12,.8,.2,1)", fill: "forwards" }
         );
 
-        window.setTimeout(() => fx.remove(), IMPACT.lifeMs + 90);
+        window.setTimeout(() => {
+            fx.remove();
+            activeImpactSprites = Math.max(0, activeImpactSprites - 1);
+        }, IMPACT.lifeMs + 90);
     }
 
     function spawnShockwave(x, y, scale = 1) {
@@ -692,7 +749,12 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     }
 
     function spawnFireShards(x, y, amount = 12, scale = 1) {
-        for (let i = 0; i < amount; i++) {
+        const available = Math.max(0, PERFORMANCE.maxShards - activeShards);
+        const cappedAmount = Math.min(amount, available);
+        if (cappedAmount <= 0) return;
+
+        for (let i = 0; i < cappedAmount; i++) {
+            activeShards += 1;
             const s = document.createElement("div");
             s.style.position = "fixed";
             s.style.left = `${x}px`;
@@ -722,7 +784,10 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
                 { duration: life, easing: "cubic-bezier(.2,.8,.2,1)", fill: "forwards" }
             );
 
-            window.setTimeout(() => s.remove(), life + 20);
+            window.setTimeout(() => {
+                s.remove();
+                activeShards = Math.max(0, activeShards - 1);
+            }, life + 20);
         }
     }
 
@@ -787,11 +852,11 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         const crit = !!opts.crit;
         const weaponType = opts.weaponType || "pulse";
         const comboLevel = opts.comboLevel || 1;
-        const strength = 1 + Math.min(0.8, comboLevel * 0.06) + (crit ? 0.35 : 0);
-        const shardAmount = clamp(Math.round(4 + comboLevel + (crit ? 4 : 0)), 4, 12);
+        const strength = 1 + Math.min(0.55, comboLevel * 0.04) + (crit ? 0.25 : 0);
+        const shardAmount = lowFxMode ? 0 : clamp(Math.round(3 + comboLevel + (crit ? 2 : 0)), 2, 8);
 
         // If impacts are happening too fast, keep only a very light effect path.
-        if (now - lastImpactAt < 28) {
+        if (now - lastImpactAt < PERFORMANCE.impactCooldownMs || lowFxMode) {
             spawnImpactSingle(x, y, 0.85);
             return;
         }
@@ -799,19 +864,21 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
 
         // center
         spawnImpactSingle(x, y, 1.05 * strength);
-        if (crit || Math.random() > 0.62) {
+        if (!lowFxMode && (crit || Math.random() > 0.75)) {
             spawnShockwave(x, y, strength);
         }
-        spawnFireShards(x, y, shardAmount, strength);
-        if (crit || Math.random() > 0.9) {
+        if (shardAmount > 0) spawnFireShards(x, y, shardAmount, strength);
+        if (!lowFxMode && (crit || Math.random() > 0.94)) {
             spawnBurnDecal(x, y, 0.7 + Math.random() * 0.35);
         }
-        if (crit || Math.random() > 0.55) {
+        if (!lowFxMode && (crit || Math.random() > 0.72)) {
             punchImpactArea(x, y);
         }
 
         // lighter burst cloud
-        const burstExtra = clamp(2 + Math.floor(comboLevel / 2) + (crit ? 3 : 0), 2, IMPACT.burstCount);
+        const burstExtra = lowFxMode
+            ? 0
+            : clamp(1 + Math.floor(comboLevel / 3) + (crit ? 2 : 0), 1, Math.min(4, IMPACT.burstCount));
         for (let i = 0; i < burstExtra; i++) {
             const dx = (Math.random() * 2 - 1) * IMPACT.burstSpreadPx;
             const dy = (Math.random() * 2 - 1) * IMPACT.burstSpreadPx;
@@ -820,7 +887,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         }
 
         // weapon flavor boost
-        if (weaponType === "scatter") {
+        if (!lowFxMode && weaponType === "scatter") {
             spawnFireShards(x, y, 4 + Math.round(Math.random() * 3), 0.6 + Math.random() * 0.3);
         }
         if (crit) {
@@ -863,12 +930,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
 
     function allClearSequence() {
         showToast("✅ ALL CLEAR! SECRET UNLOCKED");
-
-        if (flash) {
-            flash.classList.remove("is-on");
-            void flash.offsetWidth;
-            flash.classList.add("is-on");
-        }
+        triggerFlash();
 
         shakeOnDestroy();
 
@@ -898,16 +960,18 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         applyDamageVisual(el);
         applyHitStyle(el, damage);
 
-        // small hit feedback
-        el.animate(
-            [
-                { transform: "translate(0,0) scale(1)" },
-                { transform: "translate(2px,-2px) scale(1.01)" },
-                { transform: "translate(-2px,2px) scale(1.01)" },
-                { transform: "translate(0,0) scale(1)" },
-            ],
-            { duration: 160, easing: "ease-out" }
-        );
+        // small hit feedback (skip when in low-fx mode)
+        if (!lowFxMode) {
+            el.animate(
+                [
+                    { transform: "translate(0,0) scale(1)" },
+                    { transform: "translate(2px,-2px) scale(1.01)" },
+                    { transform: "translate(-2px,2px) scale(1.01)" },
+                    { transform: "translate(0,0) scale(1)" },
+                ],
+                { duration: 160, easing: "ease-out" }
+            );
+        }
 
         // ✅ if still alive, stop here (but hit/score already updated)
         if (hp > 0) return;
@@ -975,11 +1039,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         showToast("💥 SECTION CLEARED +35");
         updateHUD();
 
-        if (flash) {
-            flash.classList.remove("is-on");
-            void flash.offsetWidth;
-            flash.classList.add("is-on");
-        }
+        triggerFlash();
         shakeOnDestroy();
     }
     // ----------------------------
@@ -1003,6 +1063,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     function fireBullet() {
         const now = performance.now();
         if (now - lastShotAt < getFireCooldownMs()) return;
+        if (bullets.length >= PERFORMANCE.maxActiveBullets) return;
         lastShotAt = now;
         const weapon = WEAPONS[activeWeaponId] || WEAPONS.pulse;
 
@@ -1013,6 +1074,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         const center = (count - 1) / 2;
 
         for (let i = 0; i < count; i++) {
+            if (bullets.length >= PERFORMANCE.maxActiveBullets) break;
             const spreadOffset = (i - center) * weapon.spread;
             const el = createBulletElement(weapon);
 
@@ -1080,8 +1142,8 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         return null;
     }
 
-    function getHitDestroyableNearPoint(x, y, bulletEl) {
-        const samples = [
+    function getHitDestroyableNearPoint(x, y, bulletEl, compact = false) {
+        const fullSamples = [
             [0, 0],
             [0, -8],
             [0, 8],
@@ -1096,6 +1158,14 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
             [-14, 0],
             [14, 0],
         ];
+        const compactSamples = [
+            [0, 0],
+            [0, -8],
+            [0, 8],
+            [-8, 0],
+            [8, 0],
+        ];
+        const samples = compact ? compactSamples : fullSamples;
         for (const [dx, dy] of samples) {
             const t = getHitDestroyableAtPoint(x + dx, y + dy, bulletEl);
             if (t) return t;
@@ -1104,7 +1174,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     }
 
     // ✅ Raycast between previous and current bullet position (stops “tunneling”)
-    function raycastHit(b) {
+    function raycastHit(b, compact = false) {
         const x0 = b.px,
             y0 = b.py;
         const x1 = b.x,
@@ -1114,13 +1184,14 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
         const dy = y1 - y0;
         const dist = Math.hypot(dx, dy) || 0;
 
-        // step every ~6px for better thin-text hit reliability
-        const steps = Math.max(1, Math.ceil(dist / 6));
+        // Adaptive stepping: lighter when bullet count is high.
+        const stepPx = compact ? PERFORMANCE.raycastStepPxBusy : PERFORMANCE.raycastStepPx;
+        const steps = Math.max(1, Math.ceil(dist / stepPx));
         for (let i = 1; i <= steps; i++) {
             const t = i / steps;
             const sx = x0 + dx * t;
             const sy = y0 + dy * t;
-            const hit = getHitDestroyableNearPoint(sx, sy, b.el);
+            const hit = getHitDestroyableNearPoint(sx, sy, b.el, compact);
             if (hit) return { hit, x: sx, y: sy };
         }
         return null;
@@ -1128,6 +1199,8 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
 
     function updateBullets() {
         const now = performance.now();
+        const crowded = bullets.length > PERFORMANCE.lowCostBulletThreshold;
+        lowFxMode = crowded || firing;
 
         for (let i = bullets.length - 1; i >= 0; i--) {
             const b = bullets[i];
@@ -1160,7 +1233,11 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
                 continue;
             }
 
-            const res = raycastHit(b);
+            if (crowded && ((i + perfFrame) & 1) === 1) {
+                continue;
+            }
+
+            const res = raycastHit(b, crowded);
             if (res) {
                 const comboLevel = getComboMultiplier();
                 const critChance = 0.06 + Math.min(0.18, (comboLevel - 1) * 0.03);
@@ -1190,6 +1267,17 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     // INPUT (NO mouse)
     // ----------------------------
     window.addEventListener("keydown", (e) => {
+        if (isThanksOpen()) {
+            if (e.key === "Escape") {
+                e.preventDefault();
+                closeThanksPopup();
+            }
+            if (e.key === "Enter" || e.key === " " || e.key.toLowerCase() === FIRE_KEY) {
+                e.preventDefault();
+            }
+            return;
+        }
+
         if (e.key === "Escape") {
             if (intro?.classList.contains("is-open")) {
                 closeIntro();
@@ -1244,6 +1332,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     });
 
     window.addEventListener("keyup", (e) => {
+        if (isThanksOpen()) return;
         const k = e.key.toLowerCase();
         keys.delete(k);
         if (k === FIRE_KEY) firing = false;
@@ -1254,6 +1343,14 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     // ----------------------------
     function tick() {
         if (isOn) {
+            perfFrame++;
+            if (isHeaderDestroyed()) {
+                closeIntro();
+                stopMode();
+                requestAnimationFrame(tick);
+                return;
+            }
+
             if (combo && performance.now() - lastHitAt > COMBO_WINDOW_MS) combo = 0;
             if (isPaused) {
                 requestAnimationFrame(tick);
@@ -1293,6 +1390,7 @@ import { clamp, easeInOutCubic, isTouchDevice, wait } from "./utils.js";
     // UI FLOW
     // ----------------------------
     toggleBtn.addEventListener("click", async () => {
+        if (isThanksOpen()) return;
         if (isOn) {
             closeIntro();
             stopMode();
