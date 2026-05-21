@@ -1,5 +1,5 @@
 export const FIRE_KEY = "f";
-export const SHIP_SPEED = 22;
+export const SHIP_SPEED = 30;
 export const COMBO_WINDOW_MS = 1400;
 
 export const BULLET = {
@@ -40,7 +40,7 @@ export const WEAPONS = {
     cooldownMs: 240,
     speedBoost: 9,
     damage: 2,
-    pellets: 1,
+    pellets: 2,
     spread: 0,
     pierce: 1,
     gradient:
